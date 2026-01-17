@@ -1,0 +1,37 @@
+.progress-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.progress-bar {
+  width: 150px;
+  height: 10px;
+  background-color: #e5e7eb; /* light gray */
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* colors */
+.progress-fill.green {
+  background-color: #22c55e;
+}
+
+.progress-fill.yellow {
+  background-color: #facc15;
+}
+
+.progress-fill.red {
+  background-color: #ef4444;
+}
+
+.progress-label {
+  font-size: 12px;
+  min-width: 35px;
+  text-align: right;
+}
