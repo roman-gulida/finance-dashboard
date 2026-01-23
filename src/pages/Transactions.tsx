@@ -1,5 +1,5 @@
 import TxCard from '../components/transactions/TxCard';
-import { useTransactions } from '../contexts/TxContext';
+import { useTransactions as useTransactionsContext } from '../contexts/TxContext';
 import { useMemo, useState } from 'react';
 import { type Filter, type Sort, type Transaction } from '../types/types';
 import TxModal from '../components/transactions/TxModal';
@@ -9,9 +9,12 @@ import TxFilter from '../components/transactions/TxFilter';
 import Loading from '../components/Loading';
 import ErrorDisplay from '../components/ErrorDisplay';
 import { Frown } from 'lucide-react';
+import { useTransactions } from '../hooks/transactions/useTransactions';
 
 function Transactions() {
-  const { transactions, isLoading, error, refetch, addTx, editTx, removeTx } = useTransactions();
+  const { addTx, editTx, removeTx } = useTransactionsContext();
+  const { data: transactions = [], refetch, isPending, error } = useTransactions();
+
   const { user } = useAuth();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -114,7 +117,7 @@ function Transactions() {
 
       <button onClick={handleAdd}>Add Transaction</button>
 
-      {isLoading ? (
+      {isPending ? (
         <Loading />
       ) : txs.length === 0 ? (
         <>

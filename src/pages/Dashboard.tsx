@@ -2,7 +2,7 @@ import { useTransactions } from '../contexts/TxContext';
 import { useBudget } from '../contexts/BudgetContext';
 import SpendingByCategory from '../components/dashboard/SpendingByCategory';
 import IncomeVsExpenseChart from '../components/dashboard/IncomeVsExpense';
-import { useMonthlyBudgetCalculations } from '../hooks/useMonthlyBudget';
+import { useMonthlyBudgetCalculations } from '../hooks/budgets/useMonthlyBudget';
 import { useCallback, useMemo } from 'react';
 import Stats from '../components/dashboard/Stats';
 import RecentTxs from '../components/dashboard/RecentTxs';

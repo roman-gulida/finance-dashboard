@@ -13,7 +13,7 @@ import { useTransactions } from '../contexts/TxContext';
 import GeneralBudgetModal from '../components/budget/GeneralBudgetModal';
 import ProgressBar from '../components/ProgressBar';
 import toast from 'react-hot-toast';
-import { useMonthlyBudgetCalculations } from '../hooks/useMonthlyBudget';
+import { useMonthlyBudgetCalculations } from '../hooks/budgets/useMonthlyBudget';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Loading from '../components/Loading';
 import { Frown, SquarePen, Trash } from 'lucide-react';

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { CategoryBudget, ExpenseCategory, Transaction } from '../types/types';
+import type { CategoryBudget, ExpenseCategory, Transaction } from '../../types/types';
 
 type UseMonthlyBudgetCalculationsProps = {
   categoryBudgets: CategoryBudget[];
