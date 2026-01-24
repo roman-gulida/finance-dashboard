@@ -19,7 +19,7 @@ type IncomeVsExpenseProps = {
   transactions: Transaction[];
   isLoading: boolean;
   error: Error | null;
-  refetch: () => Promise<void>;
+  refetch: () => void;
 };
 
 function IncomeVsExpense({ transactions, isLoading, error, refetch }: IncomeVsExpenseProps) {

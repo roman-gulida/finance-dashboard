@@ -9,7 +9,7 @@ type RecentTxsProps = {
   fiveLastTxs: Transaction[];
   isLoading: boolean;
   error: Error | null;
-  refetch: () => Promise<void>;
+  refetch: () => void;
 };
 
 function RecentTxs({ fiveLastTxs, isLoading, error, refetch }: RecentTxsProps) {

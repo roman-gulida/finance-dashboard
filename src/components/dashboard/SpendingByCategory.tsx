@@ -8,7 +8,7 @@ type SpendingByCategoryProps = {
   spentByCategory: Record<string, number>;
   isLoading: boolean;
   error: Error | null;
-  refetch: () => Promise<void>;
+  refetch: () => void;
 };
 
 function SpendingByCategory({

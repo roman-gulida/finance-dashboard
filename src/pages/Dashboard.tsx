@@ -1,48 +1,54 @@
-import { useTransactions } from '../contexts/TxContext';
-import { useBudget } from '../contexts/BudgetContext';
 import SpendingByCategory from '../components/dashboard/SpendingByCategory';
 import IncomeVsExpenseChart from '../components/dashboard/IncomeVsExpense';
-import { useMonthlyBudgetCalculations } from '../hooks/budgets/useMonthlyBudget';
-import { useCallback, useMemo } from 'react';
+import { useMonthlyBudgetCalculations } from '../hooks/budgets/useMonthlyBudgetCalculations';
+import { useMemo } from 'react';
 import Stats from '../components/dashboard/Stats';
 import RecentTxs from '../components/dashboard/RecentTxs';
 import BudgetSummary from '../components/dashboard/BudgetSummary';
+import { useTransactions } from '../hooks/transactions/useTransactions';
+import { useGeneralBudget } from '../hooks/budgets/useGeneralBudget';
+import { useCategoryBudgets } from '../hooks/budgets/useCategoryBudgets';
 
 function Dashboard() {
   const {
-    transactions,
-    isLoading: txLoading,
-    error: txError,
-    refetch: refetchTxs,
+    data: transactions,
+    isPending: isPendingTransactions,
+    error: transactionsError,
+    refetch: refetchTransactions,
   } = useTransactions();
   const {
-    generalBudget,
-    categoryBudgets,
-    selectedMonth,
-    isLoading: budgetLoading,
-    error: budgetError,
-    refetch: refetchBudgets,
-  } = useBudget();
+    data: generalBudget,
+    isPending: isPendingGeneralBudget,
+    error: generalBudgetError,
+    refetch: refetchGeneralBudget,
+  } = useGeneralBudget();
+  const {
+    data: categoryBudgets,
+    isPending: isPendingCategoryBudget,
+    error: categoryBudgetError,
+    refetch: refetchCategoryBudget,
+  } = useCategoryBudgets();
 
   const { totalSpent, monthCategoryBudgets, totalIncome, spentByCategory } =
     useMonthlyBudgetCalculations({
-      categoryBudgets,
-      transactions,
-      selectedMonth,
+      categoryBudgets: categoryBudgets ?? [],
+      transactions: transactions ?? [],
     });
 
   const { fiveLastTxs, halfYearTxs } = useMemo(() => {
-    const fiveLastTxs = [...transactions]
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-      .slice(0, 5);
+    const fiveLastTxs = transactions
+      ? [...transactions]
+          .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+          .slice(0, 5)
+      : [];
 
     const halfYearAgo = new Date();
     halfYearAgo.setMonth(halfYearAgo.getMonth() - 6);
     const halfYearAgoTs = halfYearAgo.getTime();
 
-    const halfYearTxs = transactions.filter(
-      (tx) => new Date(tx.timestamp).getTime() > halfYearAgoTs,
-    );
+    const halfYearTxs = transactions
+      ? transactions.filter((tx) => new Date(tx.timestamp).getTime() > halfYearAgoTs)
+      : [];
 
     return { fiveLastTxs, halfYearTxs };
   }, [transactions]);
@@ -51,13 +57,13 @@ function Dashboard() {
     ? (totalSpent / generalBudget.totalLimit) * 100
     : null;
 
-  const handleRefetch = useCallback(async () => {
-    if (txError) await refetchTxs();
-    if (budgetError) await refetchBudgets();
-  }, [txError, budgetError, refetchTxs, refetchBudgets]);
-
-  const isLoadingTxAndBudget = txLoading || budgetLoading;
-  const errorTxAndBudget = txError || budgetError;
+  const handleRefetch = async () => {
+    await Promise.all([
+      transactionsError && refetchTransactions(),
+      generalBudgetError && refetchGeneralBudget(),
+      categoryBudgetError && refetchCategoryBudget(),
+    ]);
+  };
 
   return (
     <>
@@ -65,36 +71,42 @@ function Dashboard() {
         totalIncome={totalIncome}
         totalSpent={totalSpent}
         budgetStats={budgetStats}
-        isLoading={isLoadingTxAndBudget}
-        error={errorTxAndBudget}
+        isLoading={isPendingTransactions || isPendingGeneralBudget}
+        error={transactionsError || generalBudgetError}
         refetch={handleRefetch}
       />
       <SpendingByCategory
         spentByCategory={spentByCategory}
-        isLoading={txLoading}
-        error={txError}
-        refetch={refetchTxs}
+        isLoading={isPendingTransactions}
+        error={transactionsError}
+        refetch={() => {
+          void refetchTransactions();
+        }}
       />
       <RecentTxs
         fiveLastTxs={fiveLastTxs}
-        isLoading={txLoading}
-        error={txError}
-        refetch={refetchTxs}
+        isLoading={isPendingTransactions}
+        error={transactionsError}
+        refetch={() => {
+          void refetchTransactions();
+        }}
       />
       <BudgetSummary
-        generalBudget={generalBudget}
+        generalBudget={generalBudget ?? null}
         categoryBudgets={monthCategoryBudgets}
         spentByCategory={spentByCategory}
         totalSpent={totalSpent}
-        isLoading={isLoadingTxAndBudget}
-        error={errorTxAndBudget}
+        isLoading={isPendingTransactions || isPendingGeneralBudget || isPendingCategoryBudget}
+        error={transactionsError || generalBudgetError || categoryBudgetError}
         refetch={handleRefetch}
       />
       <IncomeVsExpenseChart
         transactions={halfYearTxs}
-        isLoading={txLoading}
-        error={txError}
-        refetch={refetchTxs}
+        isLoading={isPendingTransactions}
+        error={transactionsError}
+        refetch={() => {
+          void refetchTransactions();
+        }}
       />
     </>
   );

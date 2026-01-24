@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useBudget } from '../contexts/BudgetContext';
+import { useBudget as useBudgetContext } from '../contexts/BudgetContext';
 import CategoryBudgetCard from '../components/budget/CategoryBudgetCard';
 import {
   ExpenseCategories,
@@ -9,36 +9,49 @@ import {
 } from '../types/types';
 import CategoryBudgetModal from '../components/budget/CategoryBudgetModal';
 import { useAuth } from '../contexts/AuthContext';
-import { useTransactions } from '../contexts/TxContext';
 import GeneralBudgetModal from '../components/budget/GeneralBudgetModal';
 import ProgressBar from '../components/ProgressBar';
 import toast from 'react-hot-toast';
-import { useMonthlyBudgetCalculations } from '../hooks/budgets/useMonthlyBudget';
+import { useMonthlyBudgetCalculations } from '../hooks/budgets/useMonthlyBudgetCalculations';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Loading from '../components/Loading';
 import { Frown, SquarePen, Trash } from 'lucide-react';
+import { useTransactions } from '../hooks/transactions/useTransactions';
+import { useCategoryBudgets } from '../hooks/budgets/useCategoryBudgets';
+import { useGeneralBudget } from '../hooks/budgets/useGeneralBudget';
+import { getCurrentMonth } from '../utils/utils';
 
 function Budget() {
+  const [selectedMonth, setSelectedMonth] = useState<string>(getCurrentMonth());
+
   const {
-    categoryBudgets,
     addCategoryBudget,
     editCategoryBudget,
     removeCategoryBudget,
 
-    generalBudget,
     addGeneralBudget,
     editGeneralBudget,
     removeGeneralBudget,
-
-    isLoading,
-    error,
-    refetch,
-
-    selectedMonth,
-    setSelectedMonth,
-  } = useBudget();
+  } = useBudgetContext();
+  const {
+    data: categoryBudgets,
+    isPending: isPendingCategoryBudget,
+    error: categoryBudgetError,
+    refetch: refetchCategoryBudget,
+  } = useCategoryBudgets();
+  const {
+    data: generalBudget,
+    isPending: isPendingGeneralBudget,
+    error: generalBudgetError,
+    refetch: refetchGeneralBudget,
+  } = useGeneralBudget(selectedMonth);
   const { user } = useAuth();
-  const { transactions } = useTransactions();
+  const {
+    data: transactions,
+    isPending: isPendingTransactions,
+    error: transactionsError,
+    refetch: refetchTransactions,
+  } = useTransactions();
 
   const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(false);
   const [editingCategoryBudget, setEditingCategoryBudget] = useState<CategoryBudget | undefined>(
@@ -50,7 +63,11 @@ function Budget() {
   const userId = user!.id;
 
   const { monthCategoryBudgets, totalSpent, totalIncome, exceededCount, spentByCategory } =
-    useMonthlyBudgetCalculations({ categoryBudgets, transactions, selectedMonth });
+    useMonthlyBudgetCalculations({
+      categoryBudgets: categoryBudgets ?? [],
+      transactions: transactions ?? [],
+      selectedMonth,
+    });
 
   const availableCategories = useMemo<ExpenseCategory[]>(() => {
     const usedCategories = monthCategoryBudgets.map((b) => b.category);
@@ -58,12 +75,21 @@ function Budget() {
     return ExpenseCategories.map((ec) => ec.value).filter((ec) => !usedCategories.includes(ec));
   }, [monthCategoryBudgets]);
 
-  if (isLoading) {
+  const handleRefetch = async () => {
+    await Promise.all([
+      transactionsError && refetchTransactions(),
+      generalBudgetError && refetchGeneralBudget(),
+      categoryBudgetError && refetchCategoryBudget(),
+    ]);
+  };
+
+  if (isPendingCategoryBudget || isPendingGeneralBudget || isPendingTransactions) {
     return <Loading />;
   }
 
+  const error = transactionsError || categoryBudgetError || generalBudgetError;
   if (error) {
-    return <ErrorDisplay error={error} onRetry={refetch} />;
+    return <ErrorDisplay error={error} onRetry={handleRefetch} />;
   }
 
   const handleCategorySubmit = async (budget: CategoryBudget) => {
@@ -99,7 +125,7 @@ function Budget() {
     try {
       const isEdit = generalBudget !== null;
       isEdit
-        ? await editGeneralBudget({ ...budget, id: generalBudget.id, userId })
+        ? await editGeneralBudget({ ...budget, id: generalBudget!.id, userId })
         : await addGeneralBudget({ ...budget, userId });
 
       setIsGeneralOpen(false);

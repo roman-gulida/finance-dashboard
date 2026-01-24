@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 import type { CategoryBudget, ExpenseCategory, Transaction } from '../../types/types';
+import { getCurrentMonth } from '../../utils/utils';
 
 type UseMonthlyBudgetCalculationsProps = {
   categoryBudgets: CategoryBudget[];
   transactions: Transaction[];
-  selectedMonth: string;
+  selectedMonth?: string;
 };
 
 type MonthlyBudgetCalculations = {
@@ -18,7 +19,7 @@ type MonthlyBudgetCalculations = {
 export function useMonthlyBudgetCalculations({
   categoryBudgets,
   transactions,
-  selectedMonth,
+  selectedMonth = getCurrentMonth(),
 }: UseMonthlyBudgetCalculationsProps): MonthlyBudgetCalculations {
   return useMemo(() => {
     const monthCategoryBudgets = categoryBudgets.filter((b) => b.month === selectedMonth);
