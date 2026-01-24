@@ -1,5 +1,4 @@
 import TxCard from '../components/transactions/TxCard';
-import { useTransactions as useTransactionsContext } from '../contexts/TxContext';
 import { useMemo, useState } from 'react';
 import { type Filter, type Sort, type Transaction } from '../types/types';
 import TxModal from '../components/transactions/TxModal';
@@ -10,9 +9,14 @@ import Loading from '../components/Loading';
 import ErrorDisplay from '../components/ErrorDisplay';
 import { Frown } from 'lucide-react';
 import { useTransactions } from '../hooks/transactions/useTransactions';
+import { useTransactionMutations } from '../hooks/transactions/useTransactionMutations';
 
 function Transactions() {
-  const { addTx, editTx, removeTx } = useTransactionsContext();
+  const {
+    addTransactoin: { mutate: addTx },
+    editTransaction: { mutate: editTx },
+    removeTransaction: { mutate: removeTx },
+  } = useTransactionMutations();
   const { data: transactions = [], refetch, isPending, error } = useTransactions();
 
   const { user } = useAuth();
@@ -66,23 +70,42 @@ function Transactions() {
 
   const userId = user!.id;
 
-  const handleSubmit = async (data: Transaction) => {
-    try {
-      editedTx
-        ? await editTx({
+  const handleSubmit = (data: Transaction) => {
+    editedTx
+      ? editTx(
+          {
             ...data,
             id: editedTx.id,
             userId,
-          })
-        : await addTx({ ...data, userId });
-
-      setIsOpen(false);
-      toast.success(`Transaction ${editedTx ? 'edited' : 'added'} successfully`);
-    } catch (err) {
-      toast.error(`Failed to ${editedTx ? 'edit' : 'add'} a transaction`);
-    } finally {
-      setEditedTx(undefined);
-    }
+          },
+          {
+            onSuccess: () => {
+              toast.success('Transaction edited successfully');
+            },
+            onError: () => {
+              toast.error('Failed to edit a transaction');
+            },
+            onSettled: () => {
+              setIsOpen(false);
+              setEditedTx(undefined);
+            },
+          },
+        )
+      : addTx(
+          { ...data, userId },
+          {
+            onSuccess: () => {
+              toast.success('Transaction added successfully');
+            },
+            onError: () => {
+              toast.error('Failed to add a transaction');
+            },
+            onSettled: () => {
+              setIsOpen(false);
+              setEditedTx(undefined);
+            },
+          },
+        );
   };
 
   const handleEdit = (tx: Transaction) => {
@@ -95,13 +118,13 @@ function Transactions() {
     setIsOpen(true);
   };
 
-  const handleRemove = async (txId: string) => {
-    try {
-      await removeTx(txId);
-      toast.success('Transaction deleted successfully');
-    } catch (err) {
-      toast.error('Failed to delete a transaction');
-    }
+  const handleRemove = (txId: string) => {
+    removeTx(txId, {
+      onSuccess: () => {
+        toast.success('Transaction deleted successfully');
+      },
+      onError: () => toast.error('Failed to delete a transaction'),
+    });
   };
 
   return (
