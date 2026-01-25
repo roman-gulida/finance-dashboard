@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { useBudget as useBudgetContext } from '../contexts/BudgetContext';
 import CategoryBudgetCard from '../components/budget/CategoryBudgetCard';
 import {
   ExpenseCategories,
@@ -20,21 +19,24 @@ import { useTransactions } from '../hooks/transactions/useTransactions';
 import { useCategoryBudgets } from '../hooks/budgets/useCategoryBudgets';
 import { useGeneralBudget } from '../hooks/budgets/useGeneralBudget';
 import { getCurrentMonth } from '../utils/utils';
+import { useCategoryBudgetMutations } from '../hooks/budgets/useCategoryBudgetMutations';
+import { useGeneralBudgetMutations } from '../hooks/budgets/useGeneralBudgetMutations';
 
 function Budget() {
   const [selectedMonth, setSelectedMonth] = useState<string>(getCurrentMonth());
 
   const {
-    addCategoryBudget,
-    editCategoryBudget,
-    removeCategoryBudget,
-
-    addGeneralBudget,
-    editGeneralBudget,
-    removeGeneralBudget,
-  } = useBudgetContext();
+    addCategoryBudget: { mutate: addCategoryBudget },
+    editCategoryBudget: { mutate: editCategoryBudget },
+    removeCategoryBudget: { mutate: removeCategoryBudget },
+  } = useCategoryBudgetMutations();
   const {
-    data: categoryBudgets,
+    addGeneralBudget: { mutate: addGeneralBudget },
+    editGeneralBudget: { mutate: editGeneralBudget },
+    removeGeneralBudget: { mutate: removeGeneralBudget },
+  } = useGeneralBudgetMutations();
+  const {
+    data: categoryBudgets = [],
     isPending: isPendingCategoryBudget,
     error: categoryBudgetError,
     refetch: refetchCategoryBudget,
@@ -47,7 +49,7 @@ function Budget() {
   } = useGeneralBudget(selectedMonth);
   const { user } = useAuth();
   const {
-    data: transactions,
+    data: transactions = [],
     isPending: isPendingTransactions,
     error: transactionsError,
     refetch: refetchTransactions,
@@ -64,8 +66,8 @@ function Budget() {
 
   const { monthCategoryBudgets, totalSpent, totalIncome, exceededCount, spentByCategory } =
     useMonthlyBudgetCalculations({
-      categoryBudgets: categoryBudgets ?? [],
-      transactions: transactions ?? [],
+      categoryBudgets: categoryBudgets,
+      transactions: transactions,
       selectedMonth,
     });
 
@@ -93,18 +95,29 @@ function Budget() {
   }
 
   const handleCategorySubmit = async (budget: CategoryBudget) => {
-    try {
-      editingCategoryBudget
-        ? await editCategoryBudget({ ...budget, id: editingCategoryBudget.id, userId })
-        : await addCategoryBudget({ ...budget, userId });
-
-      setIsCategoryOpen(false);
-      toast.success(`Budget ${editingCategoryBudget ? 'edited' : 'added'} successfully`);
-    } catch (err) {
-      toast.error(`Failed to ${editingCategoryBudget ? 'edit' : 'add'} save budget`);
-    } finally {
-      setEditingCategoryBudget(undefined);
-    }
+    editingCategoryBudget
+      ? editCategoryBudget(
+          { ...budget, id: editingCategoryBudget.id, userId },
+          {
+            onSuccess: () => toast.success('Budget edited successfully'),
+            onError: () => toast.error('Failed to edit save budget'),
+            onSettled: () => {
+              setIsCategoryOpen(false);
+              setEditingCategoryBudget(undefined);
+            },
+          },
+        )
+      : addCategoryBudget(
+          { ...budget, userId },
+          {
+            onSuccess: () => toast.success('Budget added successfully'),
+            onError: () => toast.error('Failed to add save budget'),
+            onSettled: () => {
+              setIsCategoryOpen(false);
+              setEditingCategoryBudget(undefined);
+            },
+          },
+        );
   };
 
   const handleCategoryEdit = (budget: CategoryBudget) => {
@@ -113,35 +126,39 @@ function Budget() {
   };
 
   const handleCategoryRemove = async (budgetId: string) => {
-    try {
-      await removeCategoryBudget(budgetId);
-      toast.success('Budget deleted successfully');
-    } catch (err) {
-      toast.error('Failed to delete budget');
-    }
+    removeCategoryBudget(budgetId, {
+      onSuccess: () => toast.success('Budget deleted successfully'),
+      onError: () => toast.error('Failed to delete budget'),
+    });
   };
 
   const handleGeneralSubmit = async (budget: Omit<GeneralBudget, 'id'>) => {
-    try {
-      const isEdit = generalBudget !== null;
-      isEdit
-        ? await editGeneralBudget({ ...budget, id: generalBudget!.id, userId })
-        : await addGeneralBudget({ ...budget, userId });
-
-      setIsGeneralOpen(false);
-      toast.success(`Overall budget ${isEdit ? 'edited' : 'added'} successfully`);
-    } catch (err) {
-      toast.error('Failed to save general budget');
-    }
+    const isEdit = generalBudget !== null;
+    isEdit
+      ? editGeneralBudget(
+          { ...budget, id: generalBudget!.id, userId },
+          {
+            onSuccess: () => toast.success('Overall budget edited successfully'),
+            onError: () => toast.error('Failed to save general budget'),
+            onSettled: () => setIsGeneralOpen(false),
+          },
+        )
+      : addGeneralBudget(
+          { ...budget, userId },
+          {
+            onSuccess: () => toast.success('Overall budget added successfully'),
+            onError: () => toast.error('Failed to save general budget'),
+            onSettled: () => setIsGeneralOpen(false),
+          },
+        );
   };
 
   const handleGeneralRemove = async () => {
-    try {
-      generalBudget && (await removeGeneralBudget(generalBudget.id));
-      toast.success('Overall budget deleted successfully');
-    } catch (err) {
-      toast.error('Failed to delete general budget');
-    }
+    generalBudget &&
+      removeGeneralBudget(generalBudget.id, {
+        onSuccess: () => toast.success('Overall budget deleted successfully'),
+        onError: () => toast.error('Failed to delete general budget'),
+      });
   };
 
   return (

@@ -11,7 +11,7 @@ import { useCategoryBudgets } from '../hooks/budgets/useCategoryBudgets';
 
 function Dashboard() {
   const {
-    data: transactions,
+    data: transactions = [],
     isPending: isPendingTransactions,
     error: transactionsError,
     refetch: refetchTransactions,
@@ -23,7 +23,7 @@ function Dashboard() {
     refetch: refetchGeneralBudget,
   } = useGeneralBudget();
   const {
-    data: categoryBudgets,
+    data: categoryBudgets = [],
     isPending: isPendingCategoryBudget,
     error: categoryBudgetError,
     refetch: refetchCategoryBudget,
@@ -31,24 +31,22 @@ function Dashboard() {
 
   const { totalSpent, monthCategoryBudgets, totalIncome, spentByCategory } =
     useMonthlyBudgetCalculations({
-      categoryBudgets: categoryBudgets ?? [],
-      transactions: transactions ?? [],
+      categoryBudgets: categoryBudgets,
+      transactions: transactions,
     });
 
   const { fiveLastTxs, halfYearTxs } = useMemo(() => {
-    const fiveLastTxs = transactions
-      ? [...transactions]
-          .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-          .slice(0, 5)
-      : [];
+    const fiveLastTxs = [...transactions]
+      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+      .slice(0, 5);
 
     const halfYearAgo = new Date();
     halfYearAgo.setMonth(halfYearAgo.getMonth() - 6);
     const halfYearAgoTs = halfYearAgo.getTime();
 
-    const halfYearTxs = transactions
-      ? transactions.filter((tx) => new Date(tx.timestamp).getTime() > halfYearAgoTs)
-      : [];
+    const halfYearTxs = transactions.filter(
+      (tx) => new Date(tx.timestamp).getTime() > halfYearAgoTs,
+    );
 
     return { fiveLastTxs, halfYearTxs };
   }, [transactions]);

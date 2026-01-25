@@ -120,9 +120,7 @@ function Transactions() {
 
   const handleRemove = (txId: string) => {
     removeTx(txId, {
-      onSuccess: () => {
-        toast.success('Transaction deleted successfully');
-      },
+      onSuccess: () => toast.success('Transaction deleted successfully'),
       onError: () => toast.error('Failed to delete a transaction'),
     });
   };
