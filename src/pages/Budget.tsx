@@ -34,7 +34,7 @@ function Budget() {
     addGeneralBudget: { mutate: addGeneralBudget },
     editGeneralBudget: { mutate: editGeneralBudget },
     removeGeneralBudget: { mutate: removeGeneralBudget },
-  } = useGeneralBudgetMutations();
+  } = useGeneralBudgetMutations(selectedMonth);
   const {
     data: categoryBudgets = [],
     isPending: isPendingCategoryBudget,
