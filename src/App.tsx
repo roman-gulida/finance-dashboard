@@ -9,8 +9,6 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Transactions from './pages/Transactions';
 import { Routes, Route } from 'react-router-dom';
-import { TransactionsProvider } from './contexts/TxContext';
-import { BudgetProvider } from './contexts/BudgetContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './styles/App.css';
 
@@ -18,40 +16,36 @@ function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <TransactionsProvider>
-          <BudgetProvider>
-            <Routes>
-              <Route
-                element={
-                  <PrivateRoute>
-                    <MainLayout />
-                  </PrivateRoute>
-                }
-              >
-                <Route index path="/" element={<Dashboard />} />
-                <Route path="/transactions" element={<Transactions />} />
-                <Route path="/budget" element={<CategoryBudget />} />
-              </Route>
-              <Route
-                path="/sign_in"
-                element={
-                  <PublicRoute>
-                    <Login />
-                  </PublicRoute>
-                }
-              />
-              <Route
-                path="/sign_up"
-                element={
-                  <PublicRoute>
-                    <Register />
-                  </PublicRoute>
-                }
-              />
-            </Routes>
-            <Toaster />
-          </BudgetProvider>
-        </TransactionsProvider>
+        <Routes>
+          <Route
+            element={
+              <PrivateRoute>
+                <MainLayout />
+              </PrivateRoute>
+            }
+          >
+            <Route index path="/" element={<Dashboard />} />
+            <Route path="/transactions" element={<Transactions />} />
+            <Route path="/budget" element={<CategoryBudget />} />
+          </Route>
+          <Route
+            path="/sign_in"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/sign_up"
+            element={
+              <PublicRoute>
+                <Register />
+              </PublicRoute>
+            }
+          />
+        </Routes>
+        <Toaster />
       </AuthProvider>
     </ThemeProvider>
   );

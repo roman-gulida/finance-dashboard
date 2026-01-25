@@ -71,16 +71,6 @@ type ExpenseTransaction = {
 
 export type Transaction = IncomeTransaction | ExpenseTransaction;
 
-export type TxContext = {
-  transactions: Transaction[];
-  error: Error | null;
-  isLoading: boolean;
-  refetch: () => Promise<void>;
-  addTx: (tx: Omit<Transaction, 'id'>) => Promise<void>;
-  editTx: (tx: Transaction) => Promise<void>;
-  removeTx: (txId: string) => Promise<void>;
-};
-
 export type Sort = 'dateNewest' | 'dateOldest' | 'amountAsc' | 'amountDesc' | 'category';
 
 export type AmountRange = {
@@ -109,25 +99,6 @@ export type GeneralBudget = {
   userId: string;
   totalLimit: number;
   month: string;
-};
-
-export type BudgetContext = {
-  categoryBudgets: CategoryBudget[];
-  addCategoryBudget: (budget: Omit<CategoryBudget, 'id'>) => Promise<void>;
-  editCategoryBudget: (budget: CategoryBudget) => Promise<void>;
-  removeCategoryBudget: (budgetId: string) => Promise<void>;
-
-  generalBudget: GeneralBudget | null;
-  addGeneralBudget: (budget: Omit<GeneralBudget, 'id'>) => Promise<void>;
-  editGeneralBudget: (budget: GeneralBudget) => Promise<void>;
-  removeGeneralBudget: (budgetId: string) => Promise<void>;
-
-  isLoading: boolean;
-  error: Error | null;
-  refetch: () => Promise<void>;
-
-  selectedMonth: string;
-  setSelectedMonth: (month: string) => void;
 };
 
 export type BudgetStatus = {
