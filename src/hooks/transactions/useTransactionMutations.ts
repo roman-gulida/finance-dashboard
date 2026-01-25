@@ -7,7 +7,7 @@ import { useAuth } from '../../contexts/AuthContext';
 export function useTransactionMutations() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const addTransactoin = useMutation({
+  const addTransaction = useMutation({
     mutationFn: (tx: Transaction) => createTx(tx),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -34,5 +34,5 @@ export function useTransactionMutations() {
     },
   });
 
-  return { addTransactoin, editTransaction, removeTransaction };
+  return { addTransaction, editTransaction, removeTransaction };
 }

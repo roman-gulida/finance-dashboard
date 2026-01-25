@@ -13,7 +13,7 @@ import { useTransactionMutations } from '../hooks/transactions/useTransactionMut
 
 function Transactions() {
   const {
-    addTransactoin: { mutate: addTx },
+    addTransaction: { mutate: addTx },
     editTransaction: { mutate: editTx },
     removeTransaction: { mutate: removeTx },
   } = useTransactionMutations();
