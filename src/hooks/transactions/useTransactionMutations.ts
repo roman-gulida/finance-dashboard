@@ -8,7 +8,7 @@ export function useTransactionMutations() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const addTransaction = useMutation({
-    mutationFn: (tx: Transaction) => createTx(tx),
+    mutationFn: (tx: Omit<Transaction, 'id'>) => createTx(tx),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: createTransactionsQueryOptions(user!.id).queryKey,

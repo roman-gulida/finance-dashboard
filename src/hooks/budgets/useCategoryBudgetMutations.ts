@@ -12,7 +12,7 @@ export function useCategoryBudgetMutations() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const addCategoryBudget = useMutation({
-    mutationFn: (budget: CategoryBudget) => createCategoryBudget(budget),
+    mutationFn: (budget: Omit<CategoryBudget, 'id'>) => createCategoryBudget(budget),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: createCategoryBudgetsQueryOptions(user!.id).queryKey,
