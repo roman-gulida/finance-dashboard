@@ -13,7 +13,7 @@ export const createTx = async (tx: Omit<Transaction, 'id'>): Promise<Transaction
 };
 
 export const updateTx = async (tx: Transaction): Promise<Transaction> => {
-  return api.put(`${BASE_ENDPOINT}/${tx.id}`, tx);
+  return api.put<Transaction>(`${BASE_ENDPOINT}/${tx.id}`, tx);
 };
 
 export const deleteTx = async (txId: string): Promise<void> => {
