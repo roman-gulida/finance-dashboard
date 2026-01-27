@@ -1,22 +1,15 @@
+import { api } from '../lib/api.ts';
 import type { UserCredentials, User } from '../types/types.ts';
 
-const BASE_URL = 'http://localhost:5000/users';
+const BASE_ENDPOINT = '/users';
 
 export async function register(credentials: UserCredentials): Promise<User> {
   const existingUser = await getUser(credentials.username);
   if (existingUser) {
     throw new Error('Account existed before registration. Please Sign in.');
   }
-  const res = await fetch(BASE_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(credentials),
-  });
-  if (!res.ok) {
-    throw new Error('Failed to create user');
-  }
-  const createdUser = await res.json();
-  return createdUser;
+
+  return api.post<User>(BASE_ENDPOINT, credentials);
 }
 
 export async function login(credentials: UserCredentials): Promise<User> {
@@ -31,11 +24,6 @@ export async function login(credentials: UserCredentials): Promise<User> {
 }
 
 export async function getUser(username: string): Promise<User | null> {
-  const res = await fetch(`${BASE_URL}?username=${username}`);
-  if (!res.ok) {
-    throw new Error('Fetch of user data failed');
-  }
-  const data = await res.json();
-  const user = data[0];
-  return user || null;
+  const data = await api.get<User[]>(BASE_ENDPOINT, { params: { username } });
+  return data[0] || null;
 }
