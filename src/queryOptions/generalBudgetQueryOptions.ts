@@ -1,5 +1,5 @@
 import { queryOptions } from '@tanstack/react-query';
-import { getGeneralBudget } from '../services/budgetService';
+import { getGeneralBudget } from '../services/generalBudgetService';
 
 type GeneralBudgetQueryProps = {
   userId: string;

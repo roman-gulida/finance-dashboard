@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { CategoryBudget } from '../../types/types';
+import createCategoryBudgetsQueryOptions from '../../queryOptions/categoryBudgetsQueryOptions';
+import { useAuth } from '../../contexts/AuthContext';
 import {
   createCategoryBudget,
   deleteCategoryBudget,
   updateCategoryBudget,
-} from '../../services/budgetService';
-import type { CategoryBudget } from '../../types/types';
-import createCategoryBudgetsQueryOptions from '../../queryOptions/categoryBudgetsQueryOptions';
-import { useAuth } from '../../contexts/AuthContext';
+} from '../../services/categoryBudgetService';
 
 export function useCategoryBudgetMutations() {
   const { user } = useAuth();

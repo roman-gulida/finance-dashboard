@@ -3,7 +3,7 @@ import {
   createGeneralBudget,
   deleteGeneralBudget,
   updateGeneralBudget,
-} from '../../services/budgetService';
+} from '../../services/generalBudgetService';
 import type { GeneralBudget } from '../../types/types';
 import { useAuth } from '../../contexts/AuthContext';
 import createGeneralBudgetQueryOptions from '../../queryOptions/generalBudgetQueryOptions';
