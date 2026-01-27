@@ -10,7 +10,6 @@ import Register from './pages/Register';
 import Transactions from './pages/Transactions';
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
-import './styles/App.css';
 
 function App() {
   return (
