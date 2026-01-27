@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -23,6 +23,15 @@ function Header() {
           <h1>Finance Dashboard</h1>
         </Link>
       </span>
+
+      <nav>
+        <NavLink to="/" end>
+          Dashboard
+        </NavLink>
+        <NavLink to="/transactions">Transactions</NavLink>
+        <NavLink to="/budget">Budget</NavLink>
+      </nav>
+
       <div className="header-settings">
         <button
           onClick={() => {
