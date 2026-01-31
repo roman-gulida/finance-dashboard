@@ -17,31 +17,59 @@ function Header() {
   };
 
   return (
-    <header>
-      <span className="header-brand">
+    <header className="flex justify-between items-center w-full min-h-15 pl-8 pr-13 py-5 ">
+      <div>
         <Link to="/">
-          <h1>Finance Dashboard</h1>
+          <h1 className="text-4xl font-bold text-primary-500">Finance Dashboard</h1>
         </Link>
-      </span>
+      </div>
 
       <nav>
-        <NavLink to="/" end>
-          Dashboard
-        </NavLink>
-        <NavLink to="/transactions">Transactions</NavLink>
-        <NavLink to="/budget">Budget</NavLink>
+        <ul className="flex justify-center items-center py-3 px-6 rounded-3xl bg-primary-100">
+          <li>
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) => `nav-item ${isActive ? 'nav-item-active' : ''}`}
+            >
+              Dashboard
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/transactions"
+              className={({ isActive }) => `nav-item ${isActive ? 'nav-item-active' : ''}`}
+            >
+              Transactions
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/budget"
+              className={({ isActive }) => `nav-item ${isActive ? 'nav-item-active' : ''}`}
+            >
+              Budget
+            </NavLink>
+          </li>
+        </ul>
       </nav>
 
-      <div className="header-settings">
+      <div className="flex justify-center items-center gap-3">
         <button
           onClick={() => {
             toggleTheme();
           }}
+          className="h-12 w-12 p-5 mr-5 flex justify-center items-center rounded-4xl bg-primary-400 hover:bg-primary-200 hover:shadow-btn"
         >
-          {theme === 'dark' ? <MoonStar size={16} /> : <Sun size={16} />}
+          <span>{theme === 'dark' ? <MoonStar size={22} /> : <Sun size={22} />}</span>
         </button>
-        <p>{user?.username}</p>
-        <button onClick={handleLogout}>Sign out</button>
+        <p className="text-lg">@{user?.username}</p>
+        <button
+          onClick={handleLogout}
+          className="h-12 w-28 py-5 flex justify-center items-center rounded-3xl bg-primary-400  hover:bg-primary-200 hover:shadow-btn"
+        >
+          <span>Sign out</span>
+        </button>
       </div>
     </header>
   );
