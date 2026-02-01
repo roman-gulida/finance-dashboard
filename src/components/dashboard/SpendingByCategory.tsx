@@ -24,7 +24,7 @@ function SpendingByCategory({
 
   const total = data.reduce((sum, d) => sum + d.value, 0);
 
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82ca9d'];
+  const COLORS = ['#66BFFF', '#FF2B2B', '#00E5B4', '#FF6BB9', '#FF5F00', '#FFF14A', '#0F7D2D'];
 
   if (isLoading) {
     return <Loading />;
