@@ -123,6 +123,96 @@
       "amount": 55,
       "timestamp": "2026-01-10T21:00:00.000Z",
       "type": "expense"
+    },
+    {
+      "id": "t14",
+      "userId": "u1",
+      "category": "freelance",
+      "description": "Web design project",
+      "amount": 450,
+      "timestamp": "2026-02-01T10:15:00.000Z",
+      "type": "income"
+    },
+    {
+      "id": "t15",
+      "userId": "u1",
+      "category": "investments",
+      "description": "Dividend payment",
+      "amount": 120,
+      "timestamp": "2026-02-01T11:30:00.000Z",
+      "type": "income"
+    },
+    {
+      "id": "t16",
+      "userId": "u1",
+      "category": "groceries",
+      "description": "Weekly groceries",
+      "amount": 150,
+      "timestamp": "2026-02-01T09:45:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "t17",
+      "userId": "u1",
+      "category": "dining_out",
+      "description": "Lunch",
+      "amount": 25,
+      "timestamp": "2026-02-01T13:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "t18",
+      "userId": "u1",
+      "category": "transportation",
+      "description": "Monthly bus pass",
+      "amount": 40,
+      "timestamp": "2026-02-01T08:20:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "t19",
+      "userId": "u1",
+      "category": "rent_housing",
+      "description": "February rent",
+      "amount": 500,
+      "timestamp": "2026-02-01T00:01:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "t20",
+      "userId": "u1",
+      "category": "entertainment",
+      "description": "Netflix subscription",
+      "amount": 15,
+      "timestamp": "2026-02-01T14:30:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "t21",
+      "userId": "u1",
+      "category": "health_hygiene",
+      "description": "Prescription refill",
+      "amount": 35,
+      "timestamp": "2026-02-01T11:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "t22",
+      "userId": "u1",
+      "category": "shopping",
+      "description": "New shoes",
+      "amount": 120,
+      "timestamp": "2026-02-01T15:45:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "t23",
+      "userId": "u1",
+      "category": "salary",
+      "description": "February salary",
+      "amount": 1500,
+      "timestamp": "2026-02-01T09:00:00.000Z",
+      "type": "income"
     }
   ],
   "categoryBudgets": [
@@ -174,6 +264,41 @@
       "limit": 450,
       "month": "2026-01",
       "userId": "u1"
+    },
+    {
+      "id": "cb93",
+      "userId": "u1",
+      "category": "groceries",
+      "limit": 500,
+      "month": "2026-02"
+    },
+    {
+      "id": "cb95",
+      "userId": "u1",
+      "category": "transportation",
+      "limit": 160,
+      "month": "2026-02"
+    },
+    {
+      "id": "cb96",
+      "userId": "u1",
+      "category": "health_hygiene",
+      "limit": 200,
+      "month": "2026-02"
+    },
+    {
+      "id": "cb20",
+      "userId": "u1",
+      "category": "entertainment",
+      "limit": 10,
+      "month": "2026-02"
+    },
+    {
+      "id": "9b88",
+      "category": "dining_out",
+      "limit": 150,
+      "month": "2026-02",
+      "userId": "u1"
     }
   ],
   "generalBudgets": [
@@ -187,6 +312,12 @@
       "id": "gb02",
       "userId": "u1",
       "month": "2026-01",
+      "totalLimit": 2200
+    },
+    {
+      "id": "gb03",
+      "userId": "u1",
+      "month": "2026-02",
       "totalLimit": 2200
     }
   ]
