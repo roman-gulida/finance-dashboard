@@ -27,7 +27,7 @@ function Header() {
       </div>
 
       <nav>
-        <ul className="flex justify-center items-center py-3 px-6 rounded-3xl bg-primary-100 dark:bg-primary-900">
+        <ul className="flex justify-center items-center py-3 px-6 rounded-3xl bg-primary-100 dark:bg-primary-900 transition-colors duration-200 ease-out">
           <li>
             <NavLink
               to="/"
