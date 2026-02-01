@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 @theme {
   --color-primary-50: #eef2ff;
   --color-primary-100: #e0e7ff;
@@ -13,7 +15,8 @@
   --color-primary-900: #312e81;
   --color-primary-950: #1e1b4b;
 
-  --shadow-btn: 0 0 20px 3px var(--color-primary-50);
+  --shadow-btn: 0 0 22px 6px var(--color-primary-600);
+  --shadow-btn-dark: 0 0 20px 4px var(--color-primary-50);
 }
 
 @layer base {
@@ -30,10 +33,11 @@
   body {
     @apply m-0 min-h-screen min-w-[320px];
     @apply bg-primary-50 text-primary-950;
+    @apply transition-colors duration-400 ease-in-out;
   }
 
   html.dark body {
-    @apply bg-[#0a0a0a];
+    @apply bg-primary-950 text-primary-50;
   }
 }
 
@@ -42,12 +46,19 @@
     @apply cursor-pointer transition-all duration-200;
   }
 
+  .header-btn {
+    @apply text-primary-950 bg-primary-400;
+    @apply hover:bg-primary-200 hover:shadow-btn dark:hover:shadow-btn-dark;
+    @apply transition-shadow duration-200 ease-out;
+  }
+
   .nav-item {
-    @apply py-1.5 px-5 rounded-3xl transition-colors duration-200;
+    @apply py-1.5 px-5 rounded-3xl;
     @apply hover:bg-primary-400;
+    @apply transition-colors duration-200 ease-out;
   }
 
   .nav-item-active {
-    @apply bg-primary-600 text-white;
+    @apply bg-primary-500 hover:bg-primary-500 text-white;
   }
 }

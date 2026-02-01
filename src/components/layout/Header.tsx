@@ -20,12 +20,14 @@ function Header() {
     <header className="flex justify-between items-center w-full min-h-15 pl-8 pr-13 py-5 ">
       <div>
         <Link to="/">
-          <h1 className="text-4xl font-bold text-primary-500">Finance Dashboard</h1>
+          <h1 className="text-4xl font-bold text-primary-500 dark:text-primary-300">
+            Finance Dashboard
+          </h1>
         </Link>
       </div>
 
       <nav>
-        <ul className="flex justify-center items-center py-3 px-6 rounded-3xl bg-primary-100">
+        <ul className="flex justify-center items-center py-3 px-6 rounded-3xl bg-primary-100 dark:bg-primary-900">
           <li>
             <NavLink
               to="/"
@@ -59,14 +61,14 @@ function Header() {
           onClick={() => {
             toggleTheme();
           }}
-          className="h-12 w-12 p-5 mr-5 flex justify-center items-center rounded-4xl bg-primary-400 hover:bg-primary-200 hover:shadow-btn"
+          className="h-12 w-12 p-5 mr-5 flex justify-center items-center rounded-4xl header-btn"
         >
           <span>{theme === 'dark' ? <MoonStar size={22} /> : <Sun size={22} />}</span>
         </button>
         <p className="text-lg">@{user?.username}</p>
         <button
           onClick={handleLogout}
-          className="h-12 w-28 py-5 flex justify-center items-center rounded-3xl bg-primary-400  hover:bg-primary-200 hover:shadow-btn"
+          className="h-12 w-28 py-5 flex justify-center items-center rounded-3xl header-btn"
         >
           <span>Sign out</span>
         </button>
