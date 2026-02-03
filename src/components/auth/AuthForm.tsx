@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import type { UserCredentials } from '../../types/types';
 import { Eye, EyeClosed } from 'lucide-react';
 
@@ -16,6 +16,7 @@ function AuthForm({ buttonText, onSubmit }: AuthFormProps) {
   const [usernameError, setUsernameError] = useState<ValidatingError>(null);
   const [passwordError, setPasswordError] = useState<ValidatingError>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,32 +76,46 @@ function AuthForm({ buttonText, onSubmit }: AuthFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center">
+      <div className="mb-3 flex flex-col justify-center items-center">
         <input
           type="text"
+          className="form-input outline-none"
           placeholder="Username"
           value={username}
           onChange={handleUsernameChange}
           onBlur={() => setUsernameError(validateUsername(username))}
         />
-        {usernameError && <div className="error">{usernameError}</div>}
+        <p className="h-6 text-red-500">{usernameError || ''}</p>
       </div>
-      <div>
-        <input
-          type={showPassword ? 'text' : 'password'}
-          placeholder="Password"
-          value={password}
-          onChange={handlePasswordChange}
-          onBlur={() => setPasswordError(validatePassword(password))}
-        />
-        <button type="button" onClick={() => setShowPassword((prev) => !prev)}>
-          {showPassword ? <Eye size={16} /> : <EyeClosed size={16} />}
-        </button>
-        {passwordError && <div className="error">{passwordError}</div>}
+      <div className="flex flex-col items-center">
+        <div
+          className="form-input flex items-center cursor-text"
+          onClick={() => inputRef.current?.focus()}
+        >
+          <input
+            type={showPassword ? 'text' : 'password'}
+            className="outline-none border-none placeholder:text-primary-900/50 dark:placeholder:text-primary-100/50"
+            placeholder="Password"
+            value={password}
+            ref={inputRef}
+            onChange={handlePasswordChange}
+            onBlur={() => setPasswordError(validatePassword(password))}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="ml-6 w-10 h-7 flex justify-center items-center hover:bg-primary-300/50 rounded-2xl"
+          >
+            {showPassword ? <Eye size={18} /> : <EyeClosed size={18} />}
+          </button>
+        </div>
+        <p className="h-6 text-red-500">{passwordError || ''}</p>
       </div>
       <button
         type="submit"
+        className="h-10 w-30 mt-5 flex justify-center items-center rounded-3xl
+         text-primary-950 bg-primary-400 hover:bg-primary-200 transition-all hover:scale-98 duration-200 ease-out"
         disabled={
           !username || !password || usernameError !== null || passwordError !== null || isSubmitting
         }

@@ -23,12 +23,16 @@ function Register() {
   };
 
   return (
-    <div className="auth-wrapper">
-      <h1>Create an account</h1>
+    <div className="min-h-screen -mt-10 flex flex-col items-center justify-center">
+      <h1 className="text-4xl text-highlight font-bold mb-5">Finance Dashboard</h1>
+      <h3 className="text-2xl mb-4">Create an account</h3>
       <AuthForm buttonText="Sign up" onSubmit={handleRegister} />
-      <h4>
-        Already have an account? <Link to="/sign_in">Sign in</Link>
-      </h4>
+      <p className="mt-3">
+        Already have an account?{' '}
+        <Link to="/sign_in" className="text-highlight font-semibold hover:text-primary-400">
+          Sign in
+        </Link>
+      </p>
     </div>
   );
 }

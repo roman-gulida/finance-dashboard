@@ -20,9 +20,7 @@ function Header() {
     <header className="flex justify-between items-center w-full min-h-15 pl-8 pr-13 py-5 ">
       <div>
         <Link to="/">
-          <h1 className="text-4xl font-bold text-primary-500 dark:text-primary-300">
-            Finance Dashboard
-          </h1>
+          <h1 className="text-4xl font-bold text-highlight">Finance Dashboard</h1>
         </Link>
       </div>
 
@@ -68,7 +66,7 @@ function Header() {
         <p className="text-lg">@{user?.username}</p>
         <button
           onClick={handleLogout}
-          className="h-12 w-28 py-5 flex justify-center items-center rounded-3xl header-btn"
+          className="h-12 w-28 py-5 flex justify-center items-center rounded-3xl header-btn hover:scale-98"
         >
           <span>Sign out</span>
         </button>

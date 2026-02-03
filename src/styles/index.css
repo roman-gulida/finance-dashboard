@@ -39,6 +39,15 @@
   html.dark body {
     @apply bg-primary-950 text-primary-50;
   }
+
+  input[type='password']::-ms-reveal,
+  input[type='password']::-ms-clear {
+    display: none;
+  }
+
+  input[type='password']::-webkit-credentials-auto-fill-button {
+    visibility: hidden;
+  }
 }
 
 @layer components {
@@ -60,5 +69,17 @@
 
   .nav-item-active {
     @apply bg-primary-500 hover:bg-primary-500 text-white;
+  }
+
+  .text-highlight {
+    @apply text-primary-500 dark:text-primary-300;
+  }
+
+  .form-input {
+    @apply w-70 h-13 px-4 py-3 caret-primary-950 dark:caret-primary-50 bg-primary-100 dark:bg-primary-900;
+    @apply placeholder:text-primary-900/50 dark:placeholder:text-primary-100/50;
+    @apply rounded-3xl border-3 border-primary-950 dark:border-primary-50;
+    @apply focus-within:border-primary-500 dark:focus-within:border-primary-300;
+    @apply transition-colors duration-200 ease-out;
   }
 }
