@@ -9,21 +9,37 @@ type TxCardProps = {
 };
 
 function TxCard({ tx, handleEdit, handleRemove }: TxCardProps) {
+  const isExpense = tx.type === 'expense';
+
   return (
-    <div className="tx-card">
-      {getCategoryLabel(tx.category)} {tx.description} {tx.amount} {tx.type}{' '}
-      {formatDateDay(tx.timestamp)}
-      <button onClick={() => handleEdit(tx)}>
-        <span>
-          <SquarePen size={16} /> {'Edit'}
-        </span>
-      </button>
-      <button onClick={() => handleRemove(tx.id)}>
-        <span>
-          <Trash size={16} />
-          {'Delete'}
-        </span>
-      </button>
+    <div className="w-50 h-40 bg-primary-100 dark:bg-primary-900 border-2 border-primary-300 dark:border-primary-700 rounded-2xl p-4 hover:shadow-lg hover:-translate-y-1 hover:border-primary-500 dark:hover:border-primary-400 transition-all duration-200">
+      <div className="flex flex-col items-center">
+        <p className="font-semibold">{getCategoryLabel(tx.category)}</p>
+        <p className="text-sm line-clamp-1 text-primary-500 dark:text-primary-200">
+          {tx.description}
+        </p>
+        <p className={`my-1 text-xl ${isExpense ? 'text-red-500' : 'text-green-500'}`}>
+          {isExpense ? '-' : '+'}${tx.amount.toFixed(2)}
+        </p>
+        <p className="text-sm text-primary-500 dark:text-primary-200">
+          {formatDateDay(tx.timestamp)}
+        </p>
+      </div>
+
+      <div className="flex justify-center items-center gap-6 mt-1">
+        <button
+          onClick={() => handleEdit(tx)}
+          className="p-1.5 flex items-center hover:bg-primary-500/50 dark:hover:bg-primary-300/50 rounded-3xl transition-colors"
+        >
+          <SquarePen size={18} />
+        </button>
+        <button
+          onClick={() => handleRemove(tx.id)}
+          className="p-1.5 flex items-center hover:bg-primary-500/50 dark:hover:bg-primary-300/50 rounded-3xl transition-colors"
+        >
+          <Trash size={18} />
+        </button>
+      </div>
     </div>
   );
 }

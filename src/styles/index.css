@@ -48,6 +48,17 @@
   input[type='password']::-webkit-credentials-auto-fill-button {
     visibility: hidden;
   }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
 }
 
 @layer components {
@@ -76,10 +87,23 @@
   }
 
   .form-input {
-    @apply w-70 h-13 px-4 py-3 caret-primary-950 dark:caret-primary-50 bg-primary-100 dark:bg-primary-900;
+    @apply cursor-text caret-primary-950 dark:caret-primary-50 bg-primary-100 dark:bg-primary-900;
     @apply placeholder:text-primary-900/50 dark:placeholder:text-primary-100/50;
-    @apply rounded-3xl border-3 border-primary-950 dark:border-primary-50;
+    @apply rounded-3xl border-3 outline-none border-primary-950 dark:border-primary-50;
     @apply focus-within:border-primary-500 dark:focus-within:border-primary-300;
     @apply transition-colors duration-200 ease-out;
+  }
+
+  .transaction-filter-checkbox {
+    @apply inline-flex items-center gap-1 px-2 rounded-2xl cursor-pointer;
+    @apply hover:bg-primary-400 dark:hover:bg-primary-600;
+    @apply transition-colors duration-200;
+  }
+
+  .primary-btn {
+    @apply flex justify-center items-center;
+    @apply text-primary-950 bg-primary-400 hover:bg-primary-200;
+    @apply rounded-3xl hover:scale-98;
+    @apply transition-all duration-200 ease-out;
   }
 }

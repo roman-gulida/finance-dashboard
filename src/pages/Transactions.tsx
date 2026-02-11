@@ -10,6 +10,8 @@ import ErrorDisplay from '../components/ErrorDisplay';
 import { Frown } from 'lucide-react';
 import { useTransactions } from '../hooks/transactions/useTransactions';
 import { useTransactionMutations } from '../hooks/transactions/useTransactionMutations';
+import TxSearch from '../components/transactions/TxSearch';
+import TxSort from '../components/transactions/TxSort';
 
 function Transactions() {
   const {
@@ -127,33 +129,44 @@ function Transactions() {
 
   return (
     <>
-      <TxFilter
-        filter={filter}
-        sort={sort}
-        searchQuery={searchQuery}
-        setFilter={setFilter}
-        setSort={setSort}
-        setSearchQuery={setSearchQuery}
-      />
+      <div className="flex min-h-screen">
+        <aside className="w-70 border-r-3 border-primary-300 dark:border-primary-700">
+          <div className="sticky top-5 p-6">
+            <TxFilter filter={filter} setFilter={setFilter} />
+          </div>
+        </aside>
 
-      <button onClick={handleAdd}>Add Transaction</button>
+        <main className="flex-1">
+          <div className="flex items-center justify-between gap-4 px-8 py-4 border-b-3 border-primary-300 dark:border-primary-700">
+            <button onClick={handleAdd} className="h-11 primary-btn px-3 py-2">
+              Add Transaction
+            </button>
+            <TxSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            <TxSort sort={sort} setSort={setSort} />
+          </div>
 
-      {isPending ? (
-        <Loading />
-      ) : txs.length === 0 ? (
-        <>
-          <Frown />
-          <p>No transactions to display. Try adjusting your filters or add a new transaction</p>
-        </>
-      ) : (
-        <ul>
-          {txs.map((tx) => (
-            <li key={tx.id}>
-              <TxCard tx={tx} handleEdit={handleEdit} handleRemove={handleRemove} />
-            </li>
-          ))}
-        </ul>
-      )}
+          <div className="p-8">
+            {isPending ? (
+              <Loading />
+            ) : txs.length === 0 ? (
+              <div className="flex flex-col items-center justify-center text-center py-40">
+                <Frown size={64} className="mb-2 text-primary-400" />
+                <p className="text-lg text-primary-400">
+                  No transactions to display. Try adjusting your filters or add a new transaction.
+                </p>
+              </div>
+            ) : (
+              <ul className="grid grid-cols-1 xl:grid-cols-5 gap-y-5">
+                {txs.map((tx) => (
+                  <li key={tx.id}>
+                    <TxCard tx={tx} handleEdit={handleEdit} handleRemove={handleRemove} />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </main>
+      </div>
 
       <TxModal
         isOpen={isOpen}

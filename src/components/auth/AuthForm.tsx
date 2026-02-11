@@ -80,7 +80,7 @@ function AuthForm({ buttonText, onSubmit }: AuthFormProps) {
       <div className="mb-3 flex flex-col justify-center items-center">
         <input
           type="text"
-          className="form-input outline-none"
+          className="form-input w-70 h-13 px-4 py-3"
           placeholder="Username"
           value={username}
           onChange={handleUsernameChange}
@@ -90,7 +90,7 @@ function AuthForm({ buttonText, onSubmit }: AuthFormProps) {
       </div>
       <div className="flex flex-col items-center">
         <div
-          className="form-input flex items-center cursor-text"
+          className="form-input w-70 h-13 px-4 py-3 flex items-center cursor-text"
           onClick={() => inputRef.current?.focus()}
         >
           <input
@@ -105,17 +105,16 @@ function AuthForm({ buttonText, onSubmit }: AuthFormProps) {
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="ml-6 w-10 h-7 flex justify-center items-center hover:bg-primary-300/50 rounded-2xl"
+            className="ml-6 p-2 flex items-center hover:bg-primary-500/50 dark:hover:bg-primary-300/50  rounded-3xl"
           >
-            {showPassword ? <Eye size={18} /> : <EyeClosed size={18} />}
+            {showPassword ? <Eye size={20} /> : <EyeClosed size={20} />}
           </button>
         </div>
         <p className="h-6 text-red-500">{passwordError || ''}</p>
       </div>
       <button
         type="submit"
-        className="h-10 w-30 mt-5 flex justify-center items-center rounded-3xl
-         text-primary-950 bg-primary-400 hover:bg-primary-200 transition-all hover:scale-98 duration-200 ease-out"
+        className="h-10 w-30 mt-5 primary-btn"
         disabled={
           !username || !password || usernameError !== null || passwordError !== null || isSubmitting
         }

@@ -3,28 +3,17 @@ import {
   type AmountRange,
   type Category,
   type Filter,
-  type Sort,
   type TransactionType,
 } from '../../types/types';
 import { getType } from '../../utils/utils';
+import MonthSelect from '../MonthSelect';
 
 type TxFilterProps = {
-  sort: Sort;
-  setSort: React.Dispatch<React.SetStateAction<Sort>>;
   filter: Filter;
   setFilter: React.Dispatch<React.SetStateAction<Filter>>;
-  searchQuery: string;
-  setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
 };
 
-function TxFilter({
-  sort,
-  setSort,
-  filter,
-  setFilter,
-  searchQuery,
-  setSearchQuery,
-}: TxFilterProps) {
+function TxFilter({ filter, setFilter }: TxFilterProps) {
   const handleCategory = (category: Category) => {
     setFilter((prev) => {
       let updatedCategories = prev.categories.includes(category)
@@ -42,87 +31,94 @@ function TxFilter({
     return { min, max };
   };
 
+  const isCategoryDisabled = (category: Category) =>
+    filter.type === null ? false : filter.type !== getType(category);
+
   return (
-    <>
-      <div className="sorting">
-        <label>Sort by: </label>
-        <select value={sort} onChange={(e) => setSort(e.target.value as Sort)}>
-          <option value="dateNewest">Date - Newest first</option>
-          <option value="dateOldest">Date - Oldest first</option>
-          <option value="amountAsc">Amount - Low to High</option>
-          <option value="amountDesc">Amount - High to Low</option>
-          <option value="category">Category (A-Z)</option>
-        </select>
+    <div className="h-full flex flex-col">
+      <div className="flex items-center justify-between px-8">
+        <h2 className="text-2xl font-semibold">Filters</h2>
+        <button
+          type="button"
+          className="h-7 w-18 text-sm primary-btn"
+          onClick={() => {
+            setFilter({
+              type: null,
+              categories: [],
+              amountRange: { min: '', max: '' },
+              month: null,
+            });
+          }}
+        >
+          Clear All
+        </button>
       </div>
 
-      <div className="filtering">
-        <span>Filter by: </span>
-        <form>
-          <div className="type">
-            <span>Type:</span>
-            <label>
-              <input
-                type="checkbox"
-                value={'expense' as TransactionType}
-                onChange={() =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    type: filter.type === 'expense' ? null : 'expense',
-                  }))
-                }
-                checked={filter.type === 'expense'}
-              />
-              <span>Expense</span>
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                value={'income' as TransactionType}
-                onChange={() =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    type: filter.type === 'income' ? null : 'income',
-                  }))
-                }
-                checked={filter.type === 'income'}
-              />
-              <span>Income</span>
-            </label>
-          </div>
+      <form className="flex flex-col gap-y-2">
+        <div className="flex flex-col items-start">
+          <h3 className="text-lg font-semibold">Type:</h3>
+          <label className="transaction-filter-checkbox">
+            <input
+              type="checkbox"
+              value={'expense' as TransactionType}
+              className="cursor-pointer"
+              onChange={() =>
+                setFilter((prev) => ({
+                  ...prev,
+                  type: filter.type === 'expense' ? null : 'expense',
+                }))
+              }
+              checked={filter.type === 'expense'}
+            />
+            <span className="">Expense</span>
+          </label>
+          <label className="transaction-filter-checkbox">
+            <input
+              type="checkbox"
+              value={'income' as TransactionType}
+              onChange={() =>
+                setFilter((prev) => ({
+                  ...prev,
+                  type: filter.type === 'income' ? null : 'income',
+                }))
+              }
+              checked={filter.type === 'income'}
+            />
+            <span>Income</span>
+          </label>
+        </div>
 
-          <div className="categories">
-            <span>Category:</span>
-            {Categories.map((category) => (
-              <div className="filter-category" key={category.value}>
-                <label>
-                  <input
-                    type="checkbox"
-                    value={category.value}
-                    disabled={
-                      filter.type === null ? false : filter.type !== getType(category.value)
-                    }
-                    checked={filter.categories.includes(category.value)}
-                    onChange={() => handleCategory(category.value)}
-                  />
-                  <span>{category.label}</span>
-                </label>
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={() => {
-                setFilter((prev) => ({ ...prev, categories: [] }));
-              }}
-            >
-              Clear
-            </button>
-          </div>
+        <div className="flex flex-col items-start">
+          <h3 className="text-lg font-semibold">Category:</h3>
+          {Categories.map((category) => {
+            const disabled = isCategoryDisabled(category.value);
 
-          <div className="amount">
-            <span>Amount:</span>
+            return (
+              <label
+                key={category.value}
+                className={`transaction-filter-checkbox ${disabled ? 'cursor-not-allowed opacity-80' : ''}`}
+              >
+                <input
+                  type="checkbox"
+                  value={category.value}
+                  disabled={disabled}
+                  checked={filter.categories.includes(category.value)}
+                  onChange={() => handleCategory(category.value)}
+                />
+                <span>{category.label}</span>
+              </label>
+            );
+          })}
+        </div>
+
+        <div className="flex flex-col items-start">
+          <h3 className="text-lg font-semibold">Amount:</h3>
+          <div className="flex items-center gap-1">
             <input
               type="number"
               value={filter.amountRange.min}
+              min={0}
+              className="form-input w-20 h-5 rounded-md border-2 p-2"
               onChange={(e) =>
                 setFilter((prev) => ({
                   ...prev,
@@ -140,10 +136,11 @@ function TxFilter({
                 }));
               }}
             />
-            <span> -- </span>
+            <span className="w-2 text-lg flex justify-center">-</span>
             <input
               type="number"
               value={filter.amountRange.max}
+              className="form-input w-20 h-5 rounded-md border-2 p-2"
               onChange={(e) =>
                 setFilter((prev) => ({
                   ...prev,
@@ -163,6 +160,7 @@ function TxFilter({
             />
             <button
               type="button"
+              className="h-7 w-13 text-sm primary-btn ml-3"
               onClick={() =>
                 setFilter((prev) => ({
                   ...prev,
@@ -173,16 +171,18 @@ function TxFilter({
               Clear
             </button>
           </div>
+        </div>
 
-          <div className="month">
-            <span>Month:</span>
-            <input
-              type="month"
-              value={filter.month || ''}
-              onChange={(e) => setFilter((prev) => ({ ...prev, month: e.target.value }))}
+        <div className="flex flex-col items-start">
+          <h3 className="text-lg font-semibold">Month:</h3>
+          <div className="flex items-center gap-3">
+            <MonthSelect
+              value={filter.month}
+              onChange={(value) => setFilter((prev) => ({ ...prev, month: value }))}
             />
             <button
               type="button"
+              className="h-7 w-13 text-sm primary-btn"
               onClick={() => {
                 setFilter((prev) => ({
                   ...prev,
@@ -193,34 +193,9 @@ function TxFilter({
               Clear
             </button>
           </div>
-          <button
-            type="button"
-            onClick={() => {
-              setFilter({
-                type: null,
-                categories: [],
-                amountRange: { min: '', max: '' },
-                month: null,
-              });
-            }}
-          >
-            Clear All
-          </button>
-        </form>
-      </div>
-
-      <div className="search">
-        <input
-          type="text"
-          placeholder="Search by description"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button type="button" onClick={() => setSearchQuery('')}>
-          Clear
-        </button>
-      </div>
-    </>
+        </div>
+      </form>
+    </div>
   );
 }
 
