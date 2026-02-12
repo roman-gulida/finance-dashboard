@@ -137,12 +137,14 @@ function Transactions() {
         </aside>
 
         <main className="flex-1">
-          <div className="flex items-center justify-between gap-4 px-8 py-4 border-b-3 border-primary-300 dark:border-primary-700">
-            <button onClick={handleAdd} className="h-11 primary-btn px-3 py-2">
-              Add Transaction
-            </button>
-            <TxSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-            <TxSort sort={sort} setSort={setSort} />
+          <div className="sticky top-5 z-10 mx-8">
+            <div className="flex items-center justify-between px-8 py-4 border-2 rounded-4xl bg-primary-100 dark:bg-primary-900 border-primary-300 dark:border-primary-700 shadow-md transition-colors duration-200 ease-out">
+              <button onClick={handleAdd} className="h-11 primary-btn px-3 py-2">
+                Add Transaction
+              </button>
+              <TxSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+              <TxSort sort={sort} setSort={setSort} />
+            </div>
           </div>
 
           <div className="p-8">

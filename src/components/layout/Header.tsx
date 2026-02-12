@@ -17,7 +17,7 @@ function Header() {
   };
 
   return (
-    <header className="flex justify-between items-center w-full min-h-15 pl-8 pr-13 py-5 ">
+    <header className="flex justify-between items-center w-full min-h-15 pl-8 pr-13 py-5 mb-2 mt-1">
       <div>
         <Link to="/">
           <h1 className="text-4xl font-bold text-highlight">Finance Dashboard</h1>
@@ -25,7 +25,7 @@ function Header() {
       </div>
 
       <nav>
-        <ul className="flex justify-center items-center py-3 px-6 rounded-3xl bg-primary-100 dark:bg-primary-900 transition-colors duration-200 ease-out">
+        <ul className="flex justify-center items-center gap-2 py-3 px-6 rounded-3xl bg-primary-100 dark:bg-primary-900 transition-colors duration-200 ease-out">
           <li>
             <NavLink
               to="/"
