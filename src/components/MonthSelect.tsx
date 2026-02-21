@@ -3,9 +3,10 @@ import { ChevronDown } from 'lucide-react';
 type MonthSelectProps = {
   value: string | null;
   onChange: (value: string | null) => void;
+  includeAllOption?: boolean;
 };
 
-function MonthSelect({ value, onChange }: MonthSelectProps) {
+function MonthSelect({ value, onChange, includeAllOption = true }: MonthSelectProps) {
   const generateMonthOptions = () => {
     const options = [];
     const today = new Date();
@@ -32,9 +33,9 @@ function MonthSelect({ value, onChange }: MonthSelectProps) {
       <select
         value={value || ''}
         onChange={(e) => onChange(e.target.value || null)}
-        className="form-input w-45 h-8 py-0 px-3 border-2 cursor-pointer appearance-none"
+        className="form-input w-45 h-10 py-2 px-3 border-2 cursor-pointer appearance-none"
       >
-        <option value="">All time</option>
+        {includeAllOption && <option value="">All time</option>}
         {generateMonthOptions()}
       </select>
       <ChevronDown

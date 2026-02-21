@@ -23,11 +23,7 @@ function TxSearch({ searchQuery, setSearchQuery }: TxSearchProps) {
         className="outline-none pl-2 placeholder:text-primary-900/50 dark:placeholder:text-primary-100/50"
         onChange={(e) => setSearchQuery(e.target.value)}
       />
-      <button
-        type="button"
-        onClick={() => setSearchQuery('')}
-        className=" flex items-center hover:bg-primary-500/50 dark:hover:bg-primary-300/50 rounded-xl p-1"
-      >
+      <button type="button" onClick={() => setSearchQuery('')} className="icon-btn p-1">
         <X size={18} />
       </button>
     </div>

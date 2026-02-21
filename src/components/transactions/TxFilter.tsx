@@ -174,7 +174,7 @@ function TxFilter({ filter, setFilter }: TxFilterProps) {
         </div>
 
         <div className="flex flex-col items-start">
-          <h3 className="text-lg font-semibold">Month:</h3>
+          <h3 className="text-lg font-semibold mb-1">Month:</h3>
           <div className="flex items-center gap-3">
             <MonthSelect
               value={filter.month}

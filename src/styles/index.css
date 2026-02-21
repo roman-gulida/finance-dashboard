@@ -83,7 +83,7 @@
   }
 
   .text-highlight {
-    @apply text-primary-500 dark:text-primary-300;
+    @apply text-primary-600 dark:text-primary-300;
   }
 
   .form-input {
@@ -105,5 +105,10 @@
     @apply text-primary-950 bg-primary-400 hover:bg-primary-300 dark:hover:bg-primary-200;
     @apply rounded-3xl hover:scale-98;
     @apply transition-all duration-200 ease-out;
+  }
+
+  .icon-btn {
+    @apply flex items-center rounded-3xl;
+    @apply hover:bg-primary-500/50 dark:hover:bg-primary-300/50 transition-colors;
   }
 }
