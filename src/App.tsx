@@ -1,4 +1,3 @@
-import { Toaster } from 'react-hot-toast';
 import MainLayout from './components/layout/MainLayout';
 import { PrivateRoute } from './components/layout/PrivateRoute';
 import { PublicRoute } from './components/layout/PublicRoute';
@@ -10,6 +9,7 @@ import Register from './pages/Register';
 import Transactions from './pages/Transactions';
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
+import ToastProvider from './components/ToastProvider';
 
 function App() {
   return (
@@ -44,7 +44,7 @@ function App() {
             }
           />
         </Routes>
-        <Toaster />
+        <ToastProvider />
       </AuthProvider>
     </ThemeProvider>
   );

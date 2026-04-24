@@ -12,7 +12,7 @@ function TxCard({ tx, handleEdit, handleRemove }: TxCardProps) {
   const isExpense = tx.type === 'expense';
 
   return (
-    <div className="w-50 h-40 bg-primary-100 dark:bg-primary-900 border-2 border-primary-300 dark:border-primary-700 rounded-2xl p-4 hover:shadow-lg hover:-translate-y-1 hover:border-primary-500 dark:hover:border-primary-400 transition-all duration-200">
+    <div className="w-50 h-40 card-surface card-interactive p-4">
       <div className="flex flex-col items-center">
         <p className="text-lg font-semibold">{getCategoryLabel(tx.category)}</p>
         <p className="text-sm line-clamp-1 text-primary-500 dark:text-primary-200">

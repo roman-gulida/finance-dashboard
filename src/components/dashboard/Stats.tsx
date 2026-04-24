@@ -21,21 +21,21 @@ function Stats({ totalIncome, totalSpent, budgetStats, isLoading, error, refetch
   }
 
   return (
-    <div className="stat-cards">
+    <div className="flex justify-around">
       <StatCard
         title="Income"
         value={`+$${totalIncome.toFixed(2)}`}
         subtext={totalIncome === 0 ? 'no income this month' : 'this month'}
       />
       <StatCard
-        title="Expenses"
-        value={`-$${totalSpent.toFixed(2)}`}
-        subtext={totalSpent === 0 ? 'no expenses this month' : 'this month'}
-      />
-      <StatCard
         title="Budget"
         value={budgetStats ? `${budgetStats.toFixed(0)}%` : 'Not set'}
         subtext={budgetStats ? 'used' : 'set a budget'}
+      />
+      <StatCard
+        title="Expenses"
+        value={`-$${totalSpent.toFixed(2)}`}
+        subtext={totalSpent === 0 ? 'no expenses this month' : 'this month'}
       />
     </div>
   );

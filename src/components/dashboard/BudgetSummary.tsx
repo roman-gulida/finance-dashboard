@@ -4,6 +4,7 @@ import ErrorDisplay from '../ErrorDisplay';
 import Loading from '../Loading';
 import ProgressBar from '../ProgressBar';
 import { getCategoryLabel } from '../../utils/utils';
+import { MoveRight } from 'lucide-react';
 
 type BudgetSummaryProps = {
   generalBudget: GeneralBudget | null;
@@ -24,61 +25,90 @@ function BudgetSummary({
   error,
   refetch,
 }: BudgetSummaryProps) {
-  if (isLoading) {
-    return <Loading />;
-  }
+  if (isLoading) return <Loading />;
+  if (error) return <ErrorDisplay error={error} onRetry={refetch} />;
 
-  if (error) {
-    return <ErrorDisplay error={error} onRetry={refetch} />;
-  }
+  const displayedCategories = monthCategoryBudgets.slice(0, 2);
+  const isSingleCategory = displayedCategories.length === 1;
 
   return (
-    <div className="budget-summary">
-      <h2>Budget progress this month</h2>
-      {generalBudget ? (
-        <div className="general-budget-summary">
-          <span>
-            Overall: ${totalSpent} / ${generalBudget.totalLimit}
-          </span>
-          <ProgressBar percentage={(totalSpent / generalBudget.totalLimit) * 100} />
-        </div>
-      ) : (
-        <div className="general-budget-summary">
-          <h3>Overall Budget Progress</h3>
-          <p>No overall budget set for this month</p>
-          <Link to="/budget">Set General Budget</Link>
-        </div>
-      )}
+    <div className="h-full card-surface p-6 flex flex-col">
+      <h2 className="text-xl font-bold mb-2">Budget Progress</h2>
 
-      {monthCategoryBudgets.length > 0 ? (
-        <div className="category-budget-summary">
-          <span>Categories:</span>
-          <ul>
-            {monthCategoryBudgets.slice(0, 3).map((cb) => {
-              const percentage = ((spentByCategory[cb.category] ?? 0) / cb.limit) * 100;
+      <div className="mb-2 p-4 bg-primary-50 dark:bg-primary-950 rounded-xl">
+        {generalBudget ? (
+          <>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium">Overall</span>
+              <span className="text-sm font-semibold">
+                ${totalSpent.toFixed(2)} / ${generalBudget.totalLimit.toFixed(2)}
+              </span>
+            </div>
+            <ProgressBar percentage={(totalSpent / generalBudget.totalLimit) * 100} />
+          </>
+        ) : (
+          <div className="text-center py-2">
+            <p className="text-sm text-primary-600 dark:text-primary-400 mb-2">
+              No overall budget set
+            </p>
+            <Link
+              to="/budget"
+              className="inline-flex items-center gap-1 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
+            >
+              Set Budget
+              <MoveRight size={14} />
+            </Link>
+          </div>
+        )}
+      </div>
+
+      {displayedCategories.length > 0 ? (
+        <div className="flex-1">
+          <h3 className="text-lg font-semibold mb-2">Categories</h3>
+
+          <div className={`grid gap-3 ${isSingleCategory ? 'grid-cols-1' : 'grid-cols-2'}`}>
+            {displayedCategories.map((cb) => {
+              const spent = spentByCategory[cb.category] ?? 0;
+              const percentage = (spent / cb.limit) * 100;
 
               return (
-                <li key={cb.id}>
-                  <span>
-                    {getCategoryLabel(cb.category)}: <ProgressBar percentage={percentage} />
-                    <span>
-                      ${spentByCategory[cb.category] ?? 0} / ${cb.limit}
+                <div key={cb.id} className="p-3 bg-primary-50 dark:bg-primary-950 rounded-xl">
+                  <div className="flex flex-col mb-2">
+                    <span className="text-sm font-medium mb-1">
+                      {getCategoryLabel(cb.category)}
                     </span>
-                  </span>
-                </li>
+                    <span className="text-xs text-highlight">
+                      ${spent.toFixed(2)} / ${cb.limit.toFixed(2)}
+                    </span>
+                  </div>
+                  <ProgressBar percentage={percentage} />
+                </div>
               );
             })}
-          </ul>
+          </div>
         </div>
       ) : (
-        <div className="category-budget-summary">
-          <h3>Category Budget Progress</h3>
-          <p>No category budget set for this month</p>
-          <Link to="/budget">Set Category Budget</Link>
+        <div className="flex-1 flex flex-col items-center justify-center text-center">
+          <p className="text-sm text-primary-600 dark:text-primary-400 mb-2">
+            No category budgets set
+          </p>
+          <Link
+            to="/budget"
+            className="inline-flex items-center gap-1 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
+          >
+            Set Budgets
+            <MoveRight size={14} />
+          </Link>
         </div>
       )}
 
-      <Link to="/budget">View Full Budget</Link>
+      <Link
+        to="/budget"
+        className="mt-2 text-center py-2 inline-flex items-center justify-center gap-1 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
+      >
+        View Full Budget
+        <MoveRight size={14} />
+      </Link>
     </div>
   );
 }

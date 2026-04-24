@@ -64,7 +64,7 @@ function Dashboard() {
   };
 
   return (
-    <>
+    <main className="px-8 py-6 space-y-6">
       <Stats
         totalIncome={totalIncome}
         totalSpent={totalSpent}
@@ -73,40 +73,46 @@ function Dashboard() {
         error={transactionsError || generalBudgetError}
         refetch={handleRefetch}
       />
-      <SpendingByCategory
-        spentByCategory={spentByCategory}
-        isLoading={isPendingTransactions}
-        error={transactionsError}
-        refetch={() => {
-          void refetchTransactions();
-        }}
-      />
-      <RecentTxs
-        fiveLastTxs={fiveLastTxs}
-        isLoading={isPendingTransactions}
-        error={transactionsError}
-        refetch={() => {
-          void refetchTransactions();
-        }}
-      />
-      <BudgetSummary
-        generalBudget={generalBudget ?? null}
-        categoryBudgets={monthCategoryBudgets}
-        spentByCategory={spentByCategory}
-        totalSpent={totalSpent}
-        isLoading={isPendingTransactions || isPendingGeneralBudget || isPendingCategoryBudget}
-        error={transactionsError || generalBudgetError || categoryBudgetError}
-        refetch={handleRefetch}
-      />
-      <IncomeVsExpenseChart
-        transactions={halfYearTxs}
-        isLoading={isPendingTransactions}
-        error={transactionsError}
-        refetch={() => {
-          void refetchTransactions();
-        }}
-      />
-    </>
+
+      <div className="grid grid-cols-2 gap-6">
+        <SpendingByCategory
+          spentByCategory={spentByCategory}
+          isLoading={isPendingTransactions}
+          error={transactionsError}
+          refetch={() => {
+            void refetchTransactions();
+          }}
+        />
+
+        <BudgetSummary
+          generalBudget={generalBudget ?? null}
+          categoryBudgets={monthCategoryBudgets}
+          spentByCategory={spentByCategory}
+          totalSpent={totalSpent}
+          isLoading={isPendingTransactions || isPendingGeneralBudget || isPendingCategoryBudget}
+          error={transactionsError || generalBudgetError || categoryBudgetError}
+          refetch={handleRefetch}
+        />
+
+        <RecentTxs
+          fiveLastTxs={fiveLastTxs}
+          isLoading={isPendingTransactions}
+          error={transactionsError}
+          refetch={() => {
+            void refetchTransactions();
+          }}
+        />
+
+        <IncomeVsExpenseChart
+          transactions={halfYearTxs}
+          isLoading={isPendingTransactions}
+          error={transactionsError}
+          refetch={() => {
+            void refetchTransactions();
+          }}
+        />
+      </div>
+    </main>
   );
 }
 

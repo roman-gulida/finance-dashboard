@@ -45,7 +45,7 @@ export function useMonthlyBudgetCalculations({
     );
 
     const exceededCount = monthCategoryBudgets.filter(
-      (budget) => (spentByCategory[budget.category as ExpenseCategory] ?? 0) > budget.limit,
+      (budget) => (spentByCategory[budget.category as ExpenseCategory] ?? 0) >= budget.limit,
     ).length;
 
     return {

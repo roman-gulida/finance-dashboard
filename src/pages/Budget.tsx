@@ -164,7 +164,7 @@ function Budget() {
 
   return (
     <>
-      <div className="mx-10 mb-4 sticky top-5 z-10 flex justify-center items-center gap-2">
+      <div className="mx-10 mb-3 sticky top-5 z-10 flex justify-center items-center">
         <MonthSelect
           value={selectedMonth}
           onChange={(value) => setSelectedMonth(value || getCurrentMonth())}
@@ -172,47 +172,49 @@ function Budget() {
         />
       </div>
 
-      <div className="flex">
+      <div className="flex gap-2">
         <aside className="w-1/3 pl-8">
-          <div className="sticky top-30">
-            <div className="p-4 flex flex-col items-center bg-linear-to-br from-primary-100 to-primary-200 dark:from-primary-900 dark:to-primary-800 border-3 border-primary-300 dark:border-primary-700 rounded-3xl shadow-lg transition-colors duration-200 ease-out">
-              <h2 className="mb-4 text-3xl font-bold pt-2">Overall Budget</h2>
+          <div className="sticky top-20">
+            <div className="p-4 flex flex-col items-center bg-linear-to-br from-primary-100 to-primary-200 dark:from-primary-900 dark:to-primary-800 border-2 border-primary-300 dark:border-primary-700 rounded-3xl shadow-lg transition-colors duration-200 ease-out">
+              <h2 className="mb-5 text-3xl font-bold text-center">Overall Budget</h2>
 
               {generalBudget ? (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-primary-50/60 dark:bg-primary-950/60 rounded-2xl p-4">
-                      <p className="text-xs text-highlight mb-1">Total Budget</p>
-                      <p className="text-lg font-bold">${generalBudget.totalLimit.toFixed(2)}</p>
-                    </div>
-                    <div className="bg-primary-50/60 dark:bg-primary-950/60 rounded-2xl p-4">
-                      <p className="text-xs text-highlight mb-1">Total Spent</p>
-                      <p className="text-lg font-bold text-red-600 dark:text-red-500">
-                        ${totalSpent.toFixed(2)}
-                      </p>
-                    </div>
-                    <div className="bg-primary-50/60 dark:bg-primary-950/60 rounded-2xl p-4">
-                      <p className="text-xs text-highlight mb-1">Total Income</p>
-                      <p className="text-lg font-bold text-green-600 dark:text-green-500">
-                        ${totalIncome.toFixed(2)}
-                      </p>
-                    </div>
-                    <div className="bg-primary-50/60 dark:bg-primary-950/60 rounded-2xl p-4">
-                      <p className="text-xs text-highlight mb-1">Remaining</p>
-                      <p className="text-lg font-bold">
-                        ${(generalBudget.totalLimit - totalSpent).toFixed(2)}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="bg-primary-50/60 dark:bg-primary-950/60 rounded-2xl p-4">
-                    <div className="flex items-center justify-between mb-2 text-sm">
-                      <span className="text-highlight">Progress</span>
-                      <span className="font-semibold">
-                        ${totalSpent.toFixed(2)} / ${generalBudget.totalLimit.toFixed(2)}
+                <div className="w-full space-y-3">
+                  <div className="flex flex-col gap-2">
+                    <div className="bg-primary-50/60 dark:bg-primary-950/60 rounded-xl px-4 py-2 flex justify-between items-center">
+                      <span className="text-sm text-highlight">Total Budget</span>
+                      <span className="text-base font-bold">
+                        ${generalBudget.totalLimit.toFixed(2)}
                       </span>
                     </div>
-                    <ProgressBar percentage={(totalSpent / generalBudget.totalLimit) * 100} />
+                    <div className="bg-primary-50/60 dark:bg-primary-950/60 rounded-xl px-4 py-2 flex justify-between items-center">
+                      <span className="text-sm text-highlight">Total Spent</span>
+                      <span className="text-base font-bold text-red-600 dark:text-red-500">
+                        ${totalSpent.toFixed(2)}
+                      </span>
+                    </div>
+                    <div className="bg-primary-50/60 dark:bg-primary-950/60 rounded-xl px-4 py-2 flex justify-between items-center">
+                      <span className="text-sm text-highlight">Total Income</span>
+                      <span className="text-base font-bold text-green-600 dark:text-green-500">
+                        ${totalIncome.toFixed(2)}
+                      </span>
+                    </div>
+                    <div className="bg-primary-50/60 dark:bg-primary-950/60 rounded-xl px-4 py-2 flex justify-between items-center">
+                      <span className="text-sm text-highlight">Remaining</span>
+                      <span className="text-base font-bold">
+                        ${(generalBudget.totalLimit - totalSpent).toFixed(2)}
+                      </span>
+                    </div>
+
+                    <div className="bg-primary-50/60 dark:bg-primary-950/60 rounded-xl p-3">
+                      <div className="flex items-center justify-between mb-2 text-sm">
+                        <span className="text-highlight">Progress</span>
+                        <span className="font-semibold text-xs">
+                          ${totalSpent.toFixed(2)} / ${generalBudget.totalLimit.toFixed(2)}
+                        </span>
+                      </div>
+                      <ProgressBar percentage={(totalSpent / generalBudget.totalLimit) * 100} />
+                    </div>
                   </div>
 
                   <div className="flex justify-around py-3 bg-primary-50/60 dark:bg-primary-950/60 rounded-2xl">
@@ -229,18 +231,17 @@ function Budget() {
                       <p className="text-xs text-highlight">On Track</p>
                     </div>
                   </div>
-
                   <div className="flex gap-2 pt-2">
                     <button
                       onClick={() => setIsGeneralOpen(true)}
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-3  bg-primary-400 hover:bg-primary-500 dark:bg-primary-600 rounded-2xl transition-colors font-semibold"
+                      className="flex-1 flex items-center justify-center gap-2 py-2 bg-primary-400 hover:bg-primary-500 dark:bg-primary-600 rounded-2xl transition-colors font-semibold"
                     >
                       <SquarePen size={18} />
                       Edit
                     </button>
                     <button
                       onClick={handleGeneralRemove}
-                      className="flex items-center justify-center gap-2 px-4 py-3 bg-red-500/90 hover:bg-red-600 dark:bg-red-600/80 dark:hover:bg-red-500/90 rounded-2xl transition-colors"
+                      className="flex items-center justify-center gap-2 px-6 py-2 bg-red-500/90 hover:bg-red-600 dark:bg-red-600/80 dark:hover:bg-red-500/90 rounded-2xl transition-colors"
                     >
                       <Trash size={18} />
                     </button>
@@ -248,13 +249,13 @@ function Budget() {
                 </div>
               ) : (
                 <div className="flex flex-col items-center py-8 text-center">
-                  <Frown size={56} className="mb-4 text-primary-400" />
-                  <p className="text-primary-600 dark:text-primary-400 mb-4">
+                  <Frown size={56} className="mb-3 text-primary-400" />
+                  <p className="text-sm text-primary-600 dark:text-primary-400 mb-4">
                     No general budget set for this month
                   </p>
                   <button
                     onClick={() => setIsGeneralOpen(true)}
-                    className="px-6 py-3 primary-btn font-semibold"
+                    className="px-6 py-3 primary-btn font-semibold text-sm"
                   >
                     Set General Budget
                   </button>
@@ -265,7 +266,7 @@ function Budget() {
         </aside>
 
         <main className="flex-1 px-8 pb-8 pt-4">
-          <div className="flex items-center justify-evenly mb-8">
+          <div className="flex items-center justify-evenly mb-5">
             <h2 className="text-3xl font-bold">Category Budgets</h2>
             {availableCategories.length > 0 && (
               <button

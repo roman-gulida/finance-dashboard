@@ -16,7 +16,7 @@ function ProgressBar({ percentage }: ProgressBarProps) {
 
   return (
     <div className="flex items-center gap-2">
-      <div className="w-36 h-2.5 bg-primary-400/60 dark:bg-primary-200 rounded-full overflow-hidden">
+      <div className="flex-1 h-2.5 bg-primary-400/60 dark:bg-primary-200 rounded-full overflow-hidden">
         <div
           className={`h-full ${colorClasses[barColor]} transition-all duration-300`}
           style={{ width: `${clampedPercentage}%` }}
