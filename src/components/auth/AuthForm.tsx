@@ -76,26 +76,29 @@ function AuthForm({ buttonText, onSubmit }: AuthFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center">
-      <div className="mb-3 flex flex-col justify-center items-center">
+    <form
+      onSubmit={handleSubmit}
+      className="w-full max-w-sm px-4 flex flex-col justify-center items-center"
+    >
+      <div className="w-full mb-3 flex flex-col justify-center items-center">
         <input
           type="text"
-          className="form-input w-70 h-13 px-4 py-3"
+          className="form-input w-full h-12 sm:h-13 px-4 py-3"
           placeholder="Username"
           value={username}
           onChange={handleUsernameChange}
           onBlur={() => setUsernameError(validateUsername(username))}
         />
-        <p className="h-6 text-red-500">{usernameError || ''}</p>
+        <p className="w-full h-6 text-xs sm:text-sm text-red-500 px-1">{usernameError || ''}</p>
       </div>
-      <div className="flex flex-col items-center">
+      <div className="w-full flex flex-col items-center">
         <div
-          className="form-input w-70 h-13 px-4 py-3 flex items-center cursor-text"
+          className="form-input w-full h-12 sm:h-13 px-4 py-3 flex items-center cursor-text"
           onClick={() => inputRef.current?.focus()}
         >
           <input
             type={showPassword ? 'text' : 'password'}
-            className="outline-none border-none placeholder:text-primary-900/50 dark:placeholder:text-primary-100/50"
+            className="flex-1 outline-none border-none bg-transparent placeholder:text-primary-900/50 dark:placeholder:text-primary-100/50"
             placeholder="Password"
             value={password}
             ref={inputRef}
@@ -105,16 +108,16 @@ function AuthForm({ buttonText, onSubmit }: AuthFormProps) {
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="ml-6 p-2 flex items-center hover:bg-primary-500/50 dark:hover:bg-primary-300/50  rounded-3xl"
+            className="ml-2 p-2 flex items-center hover:bg-primary-500/50 dark:hover:bg-primary-300/50 rounded-3xl shrink-0"
           >
-            {showPassword ? <Eye size={20} /> : <EyeClosed size={20} />}
+            {showPassword ? <Eye size={18} /> : <EyeClosed size={18} />}
           </button>
         </div>
-        <p className="h-6 text-red-500">{passwordError || ''}</p>
+        <p className="w-full h-6 text-xs sm:text-sm text-red-500 px-1">{passwordError || ''}</p>
       </div>
       <button
         type="submit"
-        className="h-10 w-30 mt-5 primary-btn"
+        className="w-full sm:w-30 h-10 sm:h-12 mt-5 primary-btn text-sm sm:text-base"
         disabled={
           !username || !password || usernameError !== null || passwordError !== null || isSubmitting
         }

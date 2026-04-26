@@ -57,8 +57,8 @@ function IncomeVsExpense({ transactions, isLoading, error, refetch }: IncomeVsEx
   };
 
   return (
-    <div className="h-full w-full min-h-0 card-surface p-6 flex flex-col">
-      <h2 className="text-xl font-bold mb-4">Income vs Expenses</h2>
+    <div className="h-full w-full min-h-0 card-surface p-4 sm:p-6 flex flex-col">
+      <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-center">Income vs Expenses</h2>
 
       {transactions.length > 0 ? (
         <div className="flex-1 flex items-center justify-center h-full">

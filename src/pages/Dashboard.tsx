@@ -64,7 +64,7 @@ function Dashboard() {
   };
 
   return (
-    <main className="px-8 py-6 space-y-6">
+    <main className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6">
       <Stats
         totalIncome={totalIncome}
         totalSpent={totalSpent}
@@ -74,43 +74,45 @@ function Dashboard() {
         refetch={handleRefetch}
       />
 
-      <div className="grid grid-cols-2 gap-6">
-        <SpendingByCategory
-          spentByCategory={spentByCategory}
-          isLoading={isPendingTransactions}
-          error={transactionsError}
-          refetch={() => {
-            void refetchTransactions();
-          }}
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <div className="h-80 lg:h-85">
+          <SpendingByCategory
+            spentByCategory={spentByCategory}
+            isLoading={isPendingTransactions}
+            error={transactionsError}
+            refetch={() => void refetchTransactions()}
+          />
+        </div>
 
-        <BudgetSummary
-          generalBudget={generalBudget ?? null}
-          categoryBudgets={monthCategoryBudgets}
-          spentByCategory={spentByCategory}
-          totalSpent={totalSpent}
-          isLoading={isPendingTransactions || isPendingGeneralBudget || isPendingCategoryBudget}
-          error={transactionsError || generalBudgetError || categoryBudgetError}
-          refetch={handleRefetch}
-        />
+        <div className="h-80 lg:h-85">
+          <BudgetSummary
+            generalBudget={generalBudget ?? null}
+            categoryBudgets={monthCategoryBudgets}
+            spentByCategory={spentByCategory}
+            totalSpent={totalSpent}
+            isLoading={isPendingTransactions || isPendingGeneralBudget || isPendingCategoryBudget}
+            error={transactionsError || generalBudgetError || categoryBudgetError}
+            refetch={handleRefetch}
+          />
+        </div>
 
-        <RecentTxs
-          fiveLastTxs={fiveLastTxs}
-          isLoading={isPendingTransactions}
-          error={transactionsError}
-          refetch={() => {
-            void refetchTransactions();
-          }}
-        />
+        <div className="h-100 lg:h-105">
+          <RecentTxs
+            fiveLastTxs={fiveLastTxs}
+            isLoading={isPendingTransactions}
+            error={transactionsError}
+            refetch={() => void refetchTransactions()}
+          />
+        </div>
 
-        <IncomeVsExpenseChart
-          transactions={halfYearTxs}
-          isLoading={isPendingTransactions}
-          error={transactionsError}
-          refetch={() => {
-            void refetchTransactions();
-          }}
-        />
+        <div className="h-100 lg:h-105">
+          <IncomeVsExpenseChart
+            transactions={halfYearTxs}
+            isLoading={isPendingTransactions}
+            error={transactionsError}
+            refetch={() => void refetchTransactions()}
+          />
+        </div>
       </div>
     </main>
   );

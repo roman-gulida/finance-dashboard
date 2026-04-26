@@ -8,17 +8,17 @@ type TxFilterProps = {
 
 function TxSort({ sort, setSort }: TxFilterProps) {
   return (
-    <div className="relative">
+    <div className="relative w-full sm:w-auto">
       <select
         value={sort}
         onChange={(e) => setSort(e.target.value as Sort)}
-        className="form-input outline-none h-11 py-2 px-3 pr-10 appearance-none cursor-pointer"
+        className="form-input w-full sm:w-auto h-11 py-2 pl-3 pr-10 text-sm sm:text-base appearance-none cursor-pointer"
       >
         <option value="category">Category (A-Z)</option>
-        <option value="dateNewest">Date - Newest first</option>
-        <option value="dateOldest">Date - Oldest first</option>
-        <option value="amountAsc">Amount - Low to High</option>
-        <option value="amountDesc">Amount - High to Low</option>
+        <option value="dateNewest">Newest first</option>
+        <option value="dateOldest">Oldest first</option>
+        <option value="amountAsc">Low to High</option>
+        <option value="amountDesc">High to Low</option>
       </select>
       <ChevronDown
         size={18}

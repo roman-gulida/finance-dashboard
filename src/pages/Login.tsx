@@ -23,12 +23,14 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen -mt-10 flex flex-col items-center justify-center">
-      <h1 className="text-4xl text-highlight font-bold mb-5">Finance Dashboard</h1>
-      <h3 className="text-2xl mb-4">Welcome back!</h3>
+    <div className="min-h-screen px-4 -mt-10 flex flex-col items-center justify-center">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl text-highlight font-bold mb-4 sm:mb-5 text-center">
+        Finance Dashboard
+      </h1>
+      <h3 className="text-xl sm:text-2xl mb-4 text-center">Welcome back!</h3>
       <AuthForm buttonText="Sign in" onSubmit={handleLogin} />
-      <p className="mt-3">
-        Don't have an account?{' '}
+      <p className="mt-3 text-sm sm:text-base text-center">
+        Don't have an account?
         <Link to="/sign_up" className="text-highlight font-semibold hover:text-primary-400">
           Sign up
         </Link>

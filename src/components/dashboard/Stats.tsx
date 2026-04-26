@@ -12,16 +12,11 @@ type StatsProps = {
 };
 
 function Stats({ totalIncome, totalSpent, budgetStats, isLoading, error, refetch }: StatsProps) {
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (error) {
-    return <ErrorDisplay error={error} onRetry={refetch} />;
-  }
+  if (isLoading) return <Loading />;
+  if (error) return <ErrorDisplay error={error} onRetry={refetch} />;
 
   return (
-    <div className="flex justify-around">
+    <div className="grid justify-items-center grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
       <StatCard
         title="Income"
         value={`+$${totalIncome.toFixed(2)}`}

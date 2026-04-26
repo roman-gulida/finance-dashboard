@@ -23,11 +23,13 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen -mt-10 flex flex-col items-center justify-center">
-      <h1 className="text-4xl text-highlight font-bold mb-5">Finance Dashboard</h1>
-      <h3 className="text-2xl mb-4">Create an account</h3>
+    <div className="min-h-screen px-4 -mt-10 flex flex-col items-center justify-center">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl text-highlight font-bold mb-4 sm:mb-5 text-center">
+        Finance Dashboard
+      </h1>
+      <h3 className="text-xl sm:text-2xl mb-4 text-center">Create an account</h3>
       <AuthForm buttonText="Sign up" onSubmit={handleRegister} />
-      <p className="mt-3">
+      <p className="mt-3 text-sm sm:text-base text-center">
         Already have an account?{' '}
         <Link to="/sign_in" className="text-highlight font-semibold hover:text-primary-400">
           Sign in

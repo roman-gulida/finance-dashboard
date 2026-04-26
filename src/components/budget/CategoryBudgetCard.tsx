@@ -27,39 +27,41 @@ function CategoryBudgetCard({
   };
 
   return (
-    <div className="p-4 flex flex-col items-center card-surface card-interactive">
-      <h3 className="text-xl text-center mb-3">{getCategoryLabel(budget.category)}</h3>
+    <div className="p-3 sm:p-4 flex flex-col items-center card-surface card-interactive">
+      <h3 className="text-lg sm:text-xl text-center mb-2 sm:mb-3">
+        {getCategoryLabel(budget.category)}
+      </h3>
 
       <div className="w-full mb-2 px-2">
-        <p className="text-sm text-highlight mb-2 text-center">
+        <p className="text-xs sm:text-sm text-highlight mb-2 text-center">
           ${spentByCategory.toFixed(2)} / ${budget.limit.toFixed(2)}
         </p>
         <ProgressBar percentage={percentage} />
       </div>
 
-      <div className="flex items-center justify-center gap-2 mb-2 text-sm">
+      <div className="flex items-center justify-center gap-2 mb-2 text-xs sm:text-sm">
         <status.Icon size={18} className={colorClasses[status.color]} />
         <span>{status.message}</span>
       </div>
 
-      <p className="text-center text-sm text-highlight">
+      <p className="text-center text-xs sm:text-sm text-highlight mb-3">
         {remaining < 0 ? 'Over by' : 'Remaining'}: ${Math.abs(remaining).toFixed(2)}
       </p>
 
-      <div className="p-2 flex w-full justify-center items-center gap-2">
+      <div className="flex w-full justify-center items-center gap-2">
         <button
           onClick={() => handleEdit(budget)}
-          className="flex-1 flex items-center justify-center gap-2 p-2 bg-primary-400 hover:bg-primary-500 dark:bg-primary-600 rounded-2xl transition-colors font-semibold"
+          className="flex-1 flex items-center justify-center gap-1 sm:gap-2 p-2 bg-primary-400 hover:bg-primary-500 dark:bg-primary-600 rounded-2xl transition-colors font-semibold text-xs sm:text-sm"
         >
           <SquarePen size={16} />
-          <span className="text-sm">Edit</span>
+          <span>Edit</span>
         </button>
         <button
           onClick={() => handleRemove(budget.id)}
-          className="flex-1 flex items-center justify-center gap-2 p-2 bg-red-500/90 hover:bg-red-600 dark:bg-red-600/80 dark:hover:bg-red-500/90 rounded-2xl transition-colors"
+          className="flex-1 flex items-center justify-center gap-1 sm:gap-2 p-2 bg-red-500/90 hover:bg-red-600 dark:bg-red-600/80 rounded-2xl transition-colors text-xs sm:text-sm"
         >
           <Trash size={16} />
-          <span className="text-sm">Delete</span>
+          <span>Delete</span>
         </button>
       </div>
     </div>

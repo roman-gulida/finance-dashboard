@@ -36,11 +36,11 @@ function TxFilter({ filter, setFilter }: TxFilterProps) {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex items-center justify-between px-8">
-        <h2 className="text-2xl font-semibold">Filters</h2>
+      <div className="flex items-center justify-between px-4 sm:px-8">
+        <h2 className="text-xl sm:text-2xl font-semibold">Filters</h2>
         <button
           type="button"
-          className="h-7 w-18 text-sm primary-btn"
+          className="h-7 px-3 sm:px-4 text-xs sm:text-sm primary-btn"
           onClick={() => {
             setFilter({
               type: null,
@@ -54,9 +54,9 @@ function TxFilter({ filter, setFilter }: TxFilterProps) {
         </button>
       </div>
 
-      <form className="flex flex-col gap-y-2">
+      <form className="flex flex-col gap-y-1 sm:gap-y-2 px-4 sm:px-0">
         <div className="flex flex-col items-start">
-          <h3 className="text-lg font-semibold">Type:</h3>
+          <h3 className="text-base sm:text-lg font-semibold">Type:</h3>
           <label className="transaction-filter-checkbox">
             <input
               type="checkbox"

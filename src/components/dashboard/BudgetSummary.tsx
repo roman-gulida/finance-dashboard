@@ -32,8 +32,8 @@ function BudgetSummary({
   const isSingleCategory = displayedCategories.length === 1;
 
   return (
-    <div className="h-full card-surface p-6 flex flex-col">
-      <h2 className="text-xl font-bold mb-2">Budget Progress</h2>
+    <div className="h-full card-surface p-4 sm:p-6 flex flex-col">
+      <h2 className="text-lg sm:text-xl font-bold mb-2 text-center">Budget Progress</h2>
 
       <div className="mb-2 p-4 bg-primary-50 dark:bg-primary-950 rounded-xl">
         {generalBudget ? (
@@ -64,7 +64,7 @@ function BudgetSummary({
 
       {displayedCategories.length > 0 ? (
         <div className="flex-1">
-          <h3 className="text-lg font-semibold mb-2">Categories</h3>
+          <h3 className="text-lg font-semibold mb-2 text-center">Categories</h3>
 
           <div className={`grid gap-3 ${isSingleCategory ? 'grid-cols-1' : 'grid-cols-2'}`}>
             {displayedCategories.map((cb) => {
