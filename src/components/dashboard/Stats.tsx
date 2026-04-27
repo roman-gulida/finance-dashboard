@@ -1,3 +1,4 @@
+import { CenteredState } from '../CenteredState';
 import ErrorDisplay from '../ErrorDisplay';
 import Loading from '../Loading';
 import StatCard from './StatCard';
@@ -12,8 +13,18 @@ type StatsProps = {
 };
 
 function Stats({ totalIncome, totalSpent, budgetStats, isLoading, error, refetch }: StatsProps) {
-  if (isLoading) return <Loading />;
-  if (error) return <ErrorDisplay error={error} onRetry={refetch} />;
+  if (isLoading)
+    return (
+      <CenteredState>
+        <Loading />
+      </CenteredState>
+    );
+  if (error)
+    return (
+      <CenteredState>
+        <ErrorDisplay error={error} onRetry={refetch} />
+      </CenteredState>
+    );
 
   return (
     <div className="grid justify-items-center grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">

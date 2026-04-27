@@ -14,11 +14,19 @@ export function PublicRoute({ children }: PublicRouteProps) {
   const isAuthenticated = user !== null;
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <div className="flex-1 flex items-center justify-center min-h-[90vh]">
+        <Loading />
+      </div>
+    );
   }
 
   if (error) {
-    return <ErrorDisplay error={error} onRetry={checkAuth} />;
+    return (
+      <div className="flex-1 flex items-center justify-center min-h-[90vh]">
+        <ErrorDisplay error={error} onRetry={checkAuth} />
+      </div>
+    );
   }
 
   return isAuthenticated ? <Navigate to="/" replace /> : <>{children}</>;

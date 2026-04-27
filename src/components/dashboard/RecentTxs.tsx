@@ -4,6 +4,7 @@ import { getCategoryLabel } from '../../utils/utils';
 import ErrorDisplay from '../ErrorDisplay';
 import Loading from '../Loading';
 import { Frown, MoveRight } from 'lucide-react';
+import { CenteredState } from '../CenteredState';
 
 type RecentTxsProps = {
   fiveLastTxs: Transaction[];
@@ -13,8 +14,18 @@ type RecentTxsProps = {
 };
 
 function RecentTxs({ fiveLastTxs, isLoading, error, refetch }: RecentTxsProps) {
-  if (isLoading) return <Loading />;
-  if (error) return <ErrorDisplay error={error} onRetry={refetch} />;
+  if (isLoading)
+    return (
+      <CenteredState>
+        <Loading />
+      </CenteredState>
+    );
+  if (error)
+    return (
+      <CenteredState>
+        <ErrorDisplay error={error} onRetry={refetch} />
+      </CenteredState>
+    );
 
   return (
     <div className="h-full card-surface p-6 flex flex-col">
@@ -48,8 +59,8 @@ function RecentTxs({ fiveLastTxs, isLoading, error, refetch }: RecentTxsProps) {
             to="/transactions"
             className="mt-2 text-center py-1 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
           >
-            <span className="flex items-center gap-1 justify-center font-semibold text-sm">
-              View all <MoveRight size={14} />
+            <span className="flex items-center gap-1 justify-center font-semibold text-base">
+              View all <MoveRight size={16} />
             </span>
           </Link>
         </>

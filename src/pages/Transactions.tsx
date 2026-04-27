@@ -67,7 +67,11 @@ function Transactions() {
   }, [transactions, filter, sort, searchQuery]);
 
   if (error) {
-    return <ErrorDisplay error={error} onRetry={refetch} />;
+    return (
+      <div className="flex-1 flex items-center justify-center min-h-[70vh]">
+        <ErrorDisplay error={error} onRetry={refetch} />
+      </div>
+    );
   }
 
   const userId = user!.id;
@@ -180,7 +184,9 @@ function Transactions() {
 
           <div className="p-4 sm:p-6 lg:p-8">
             {isPending ? (
-              <Loading />
+              <div className="flex-1 flex items-center justify-center min-h-[55vh]">
+                <Loading />
+              </div>
             ) : txs.length === 0 ? (
               <div className="flex flex-col items-center justify-center text-center py-20 sm:py-40 px-4">
                 <Frown size={64} className="mb-2 text-primary-400" />

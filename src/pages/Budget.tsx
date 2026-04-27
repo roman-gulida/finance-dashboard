@@ -85,12 +85,20 @@ function Budget() {
   };
 
   if (isPendingCategoryBudget || isPendingGeneralBudget || isPendingTransactions) {
-    return <Loading />;
+    return (
+      <div className="flex-1 flex items-center justify-center min-h-[70vh]">
+        <Loading />
+      </div>
+    );
   }
 
   const error = transactionsError || categoryBudgetError || generalBudgetError;
   if (error) {
-    return <ErrorDisplay error={error} onRetry={handleRefetch} />;
+    return (
+      <div className="flex-1 flex items-center justify-center min-h-[70vh]">
+        <ErrorDisplay error={error} onRetry={handleRefetch} />
+      </div>
+    );
   }
 
   const handleCategorySubmit = async (budget: CategoryBudget) => {
@@ -171,7 +179,7 @@ function Budget() {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-4 lg:gap-0">
-        <aside className="w-full lg:w-1/3 px-4 sm:px-6 lg:pl-6">
+        <aside className="w-full lg:w-1/3 px-4 sm:pl-6 lg:pl-6">
           <div className="lg:sticky lg:top-20">
             <div className="p-4 sm:p-5 flex flex-col items-center bg-linear-to-br from-primary-100 to-primary-200 dark:from-primary-900 dark:to-primary-800 border-2 border-primary-300 dark:border-primary-700 rounded-3xl shadow-lg">
               <h2 className="mb-4 sm:mb-5 text-2xl sm:text-3xl font-bold text-center">
@@ -266,7 +274,7 @@ function Budget() {
           </div>
         </aside>
 
-        <main className="flex-1 px-4 sm:px-6 lg:px-4 pb-8">
+        <main className="flex-1 px-4 sm:px-6 lg:pl-4 lg:pr8- pb-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0 mb-4 sm:mb-5">
             <h2 className="text-2xl sm:text-3xl font-bold">Category Budgets</h2>
             {availableCategories.length > 0 && (

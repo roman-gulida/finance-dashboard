@@ -30,7 +30,7 @@ function Login() {
       <h3 className="text-xl sm:text-2xl mb-4 text-center">Welcome back!</h3>
       <AuthForm buttonText="Sign in" onSubmit={handleLogin} />
       <p className="mt-3 text-sm sm:text-base text-center">
-        Don't have an account?
+        Don't have an account?{' '}
         <Link to="/sign_up" className="text-highlight font-semibold hover:text-primary-400">
           Sign up
         </Link>

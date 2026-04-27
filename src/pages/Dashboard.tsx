@@ -64,7 +64,7 @@ function Dashboard() {
   };
 
   return (
-    <main className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6">
+    <main className="px-4 sm:px-6 lg:px-20 lg:max-xl:px-10 py-4 sm:py-6 space-y-4 sm:space-y-6">
       <Stats
         totalIncome={totalIncome}
         totalSpent={totalSpent}

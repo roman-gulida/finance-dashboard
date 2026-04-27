@@ -15,6 +15,7 @@ import Loading from '../Loading';
 import ErrorDisplay from '../ErrorDisplay';
 import { Frown } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { CenteredState } from '../CenteredState';
 
 type IncomeVsExpenseProps = {
   transactions: Transaction[];
@@ -45,8 +46,18 @@ function IncomeVsExpense({ transactions, isLoading, error, refetch }: IncomeVsEx
       }));
   }, [transactions]);
 
-  if (isLoading) return <Loading />;
-  if (error) return <ErrorDisplay error={error} onRetry={refetch} />;
+  if (isLoading)
+    return (
+      <CenteredState>
+        <Loading />
+      </CenteredState>
+    );
+  if (error)
+    return (
+      <CenteredState>
+        <ErrorDisplay error={error} onRetry={refetch} />
+      </CenteredState>
+    );
 
   const CHART_COLORS = {
     positive: theme === 'dark' ? '#10b981' : '#16a34a',

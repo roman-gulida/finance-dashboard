@@ -5,6 +5,7 @@ import Loading from '../Loading';
 import ProgressBar from '../ProgressBar';
 import { getCategoryLabel } from '../../utils/utils';
 import { MoveRight } from 'lucide-react';
+import { CenteredState } from '../CenteredState';
 
 type BudgetSummaryProps = {
   generalBudget: GeneralBudget | null;
@@ -25,8 +26,18 @@ function BudgetSummary({
   error,
   refetch,
 }: BudgetSummaryProps) {
-  if (isLoading) return <Loading />;
-  if (error) return <ErrorDisplay error={error} onRetry={refetch} />;
+  if (isLoading)
+    return (
+      <CenteredState>
+        <Loading />
+      </CenteredState>
+    );
+  if (error)
+    return (
+      <CenteredState>
+        <ErrorDisplay error={error} onRetry={refetch} />
+      </CenteredState>
+    );
 
   const displayedCategories = monthCategoryBudgets.slice(0, 2);
   const isSingleCategory = displayedCategories.length === 1;
@@ -104,10 +115,10 @@ function BudgetSummary({
 
       <Link
         to="/budget"
-        className="mt-2 text-center py-2 inline-flex items-center justify-center gap-1 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
+        className="mt-2 text-center py-2 inline-flex items-center justify-center gap-1 text-base font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
       >
         View Full Budget
-        <MoveRight size={14} />
+        <MoveRight size={16} />
       </Link>
     </div>
   );

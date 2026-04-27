@@ -4,6 +4,7 @@ import Loading from '../Loading';
 import ErrorDisplay from '../ErrorDisplay';
 import { Frown } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { CenteredState } from '../CenteredState';
 
 type SpendingByCategoryProps = {
   spentByCategory: Record<string, number>;
@@ -35,8 +36,18 @@ function SpendingByCategory({
   };
   const COLORS = CHART_COLORS[theme];
 
-  if (isLoading) return <Loading />;
-  if (error) return <ErrorDisplay error={error} onRetry={refetch} />;
+  if (isLoading)
+    return (
+      <CenteredState>
+        <Loading />
+      </CenteredState>
+    );
+  if (error)
+    return (
+      <CenteredState>
+        <ErrorDisplay error={error} onRetry={refetch} />
+      </CenteredState>
+    );
 
   return (
     <div className="h-full p-4 sm:p-6 card-surface flex flex-col items-center">
